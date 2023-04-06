@@ -24,12 +24,4 @@ const author = async function(req, res) {
 
 module.exports = {
   author,
-  random,
-  song,
-  album,
-  albums,
-  album_songs,
-  top_songs,
-  top_albums,
-  search_songs,
 }
