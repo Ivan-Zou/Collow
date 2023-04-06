@@ -18,10 +18,31 @@ connection.connect((err) => err && console.log(err));
 
 // Route 1: GET /author
 const author = async function(req, res) {
-  const name = 'Angeline, Brady, Ivan, Sid';
+  const name = 'Angeline, Brady, Ivan, and Sid';
   res.send(`Created by ${name}`);
 }
 
+// Route 2: GET /county/:id
+// Given the id of a county, return the name of the county
+const county = async function(req, res) {
+  connection.query(`
+    SELECT name
+    FROM County
+    WHERE id = '${req.params.id}'
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data[0]);
+    }
+  });
+}
+
+// Route 3: GET /
+
+
 module.exports = {
   author,
+  county,
 }
