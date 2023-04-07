@@ -22,19 +22,25 @@ const author = async function(req, res) {
   res.send(`Created by ${name}`);
 }
 
-// Route 2: GET /county/:id
-// Given the id of a county, return the name of the county
-const county = async function(req, res) {
+// Route 2: GET /county_listing_prices
+const county_listing_prices = async function(req, res) {
+  const page = req.query.page;
+  const pageSize = req.query.page_size ?? 10;
+  const offset = pageSize * (page - 1);
+
+  // LP.date is temporary just wanted to display data on the web page
   connection.query(`
-    SELECT name
-    FROM County
-    WHERE id = '${req.params.id}'
+    SELECT C.id, LP.date, C.name, LP.median, LP.average
+    FROM County C JOIN Listing_Price LP ON C.id = LP.id
+    WHERE LP.date = 202302
+    ORDER BY LP.median
+    LIMIT ${pageSize} OFFSET ${offset}
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
-      res.json({});
+      res.json([]);
     } else {
-      res.json(data[0]);
+      res.json(data);
     }
   });
 }
@@ -44,5 +50,5 @@ const county = async function(req, res) {
 
 module.exports = {
   author,
-  county,
+  county_listing_prices,
 }

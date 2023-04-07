@@ -9,8 +9,7 @@ const config = require('../config.json');
 export default function HomePage() {
   // We use the setState hook to persist information across renders (such as the result of our API calls)
   const [songOfTheDay, setSongOfTheDay] = useState({});
-  // TODO (TASK 13): add a state variable to store the app author (default to '')
-
+  const [appAuthor, setAppAuthor] = useState('');
   const [selectedSongId, setSelectedSongId] = useState(null);
 
   // The useEffect hook by default runs the provided callback after every render
@@ -26,8 +25,29 @@ export default function HomePage() {
       .then(res => res.json())
       .then(resJson => setSongOfTheDay(resJson));
 
-    // TODO (TASK 14): add a fetch call to get the app author (name not pennkey) and store it in the state variable
+    fetch(`http://${config.server_host}:${config.server_port}/author`)
+      .then(res => res.text())
+      .then(resText => setAppAuthor(resText));
   }, []);
+
+  const countyColumns = [
+    {
+      field: 'date',
+      headerName: "Date"
+    },
+    {
+      field: 'name',
+      headerName: 'County',
+    },
+    {
+      field: 'median',
+      headerName: 'Median Listing Price',
+    },
+    {
+      field: 'average',
+      headerName: 'Average Listing Price'
+    },
+  ];
 
   // Here, we define the columns of the "Top Songs" table. The songColumns variable is an array (in order)
   // of objects with each object representing a column. Each object has a "field" property representing
@@ -64,11 +84,11 @@ export default function HomePage() {
         <Link onClick={() => setSelectedSongId(songOfTheDay.song_id)}>{songOfTheDay.title}</Link>
       </h2>
       <Divider />
-      <h2>Top Songs</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/top_songs`} columns={songColumns} />
+      <h2>Latest County Listing Prices</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       {/* TODO (TASK 16): add a h2 heading, LazyTable, and divider for top albums. Set the LazyTable's props for defaultPageSize to 5 and rowsPerPageOptions to [5, 10] */}
-      {/* TODO (TASK 17): add a paragraph (<p>text</p>) that displays the value of your author state variable from TASK 13 */}
+      <p>{appAuthor}</p>
     </Container>
   );
 };
