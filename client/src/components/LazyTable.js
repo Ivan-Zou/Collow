@@ -36,8 +36,6 @@ export default function LazyTable({ route, columns, defaultPageSize, rowsPerPage
     // when handling events such as changing a selection box or typing into a text box,
     // the handler is called with parameter e (the event) and the value is e.target.value
     const newPageSize = e.target.value;
-
-    // TODO (TASK 18): set pageSize state variable and reset the current page to 1
     setPageSize(newPageSize);
     setPage(1);
   }
@@ -57,15 +55,14 @@ export default function LazyTable({ route, columns, defaultPageSize, rowsPerPage
         <TableBody>
           {data.map((row, idx) =>
             <TableRow key={idx}>
-              {
-                // TODO (TASK 19): the next 3 lines of code render only the first column. Modify this with a map statement to render all columns.
-                // Hint: look at how we structured the map statement to render all the table headings within the <TableHead> element
-                <TableCell key={columns[0].headerName}>
-                  {/* Note the following ternary statement renders the cell using a custom renderCell function if defined, or defaultRenderCell otherwise */}
-                  {columns[0].renderCell ? columns[0].renderCell(row) : defaultRenderCell(columns[0], row)}
+            {
+              columns.map(col =>
+                <TableCell key={col.headerName}>
+                  {col.renderCell ? col.renderCell(row) : defaultRenderCell(col, row)}
                 </TableCell>
-              }
-            </TableRow>
+              )
+            }
+          </TableRow>
           )}
         </TableBody>
         <TablePagination
