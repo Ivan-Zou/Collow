@@ -6,12 +6,11 @@ import { NavLink } from 'react-router-dom';
 const NavText = ({ href, text, isMain }) => {
   return (
     <Typography
-      variant={isMain ? 'h5' : 'h7'}
-      noWrap
+      variant={isMain ? 'h2' : 'h5'}
       style={{
-        marginRight: '30px',
-        fontFamily: 'monospace',
-        fontWeight: 700,
+        marginRight: '35px',
+        fontFamily: 'sans-serif',
+        fontWeight: 750,
         letterSpacing: '.3rem',
       }}
     >
@@ -34,9 +33,13 @@ const NavText = ({ href, text, isMain }) => {
 export default function NavBar() {
   return (
     <AppBar position='static'>
-      <Container maxWidth='xl'>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <NavText href='/' text='SWIFTIFY' isMain />
+          <NavText href='/' text='Collow' isMain />
+        </Toolbar>
+      </Container>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
           <NavText href='/albums' text='ALBUMS' />
           <NavText href='/songs' text='SONGS' />
         </Toolbar>
