@@ -38,6 +38,8 @@ export default function LazyTable({ route, columns, defaultPageSize, rowsPerPage
     const newPageSize = e.target.value;
 
     // TODO (TASK 18): set pageSize state variable and reset the current page to 1
+    setPageSize(newPageSize);
+    setPage(1);
   }
 
   const defaultRenderCell = (col, row) => {
