@@ -7,18 +7,18 @@ import { NavLink } from 'react-router-dom';
 const NavText = ({ href, text, isMain }) => {
   return (
     <Typography
-      variant={isMain ? 'h4' : 'h5'}
+      variant={isMain ? 'h5' : 'h7'}
       style={{
-        marginRight: '30px',
+        marginRight: '35px',
         fontFamily: 'sans-serif',
-        fontWeight: 750,
-        letterSpacing: '.3rem',
+        fontWeight: 700,
+        letterSpacing: '.2rem',
       }}
     >
       <NavLink
         to={href}
         style={{
-          color: 'inherit',
+          color: 'darkGreen',
           textDecoration: 'none',
         }}
       >
@@ -36,10 +36,10 @@ export default function NavBar() {
     <AppBar position='static'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <NavText href='/' text='COLLOW' isMain />
-          <NavText href='/albums' text='ALBUMS' />
-          <NavText href='/songs' text='SONGS' />
-          <NavText href='/counties' text = 'COUNTIES'/>
+        <NavText href='/' text='Home' isMain />
+          <NavText href='/albums' text='Albums' />
+          <NavText href='/songs' text='Songs' />
+          <NavText href='/counties' text = 'Counties'/>
         </Toolbar>
       </Container>
     </AppBar>

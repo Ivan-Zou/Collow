@@ -14,7 +14,7 @@ import CountiesPage from "./pages/CountiesPage";
 // in this case, we only change the color scheme
 export const theme = createTheme({
   palette: {
-    primary: green,
+    primary: lightGreen,
     secondary: lightGreen,
   },
 });
