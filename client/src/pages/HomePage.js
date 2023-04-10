@@ -12,6 +12,8 @@ export default function HomePage() {
   const [appAuthor, setAppAuthor] = useState('');
   const [selectedSongId, setSelectedSongId] = useState(null);
 
+  // States
+
   // The useEffect hook by default runs the provided callback after every render
   // The second (optional) argument, [], is the dependency array which signals
   // to the hook to only run the provided callback if the value of the dependency array

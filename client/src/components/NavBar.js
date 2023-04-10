@@ -1,4 +1,5 @@
 import { AppBar, Container, Toolbar, Typography } from '@mui/material'
+import { purple } from '@mui/material/colors';
 import { NavLink } from 'react-router-dom';
 
 // The hyperlinks in the NavBar contain a lot of repeated formatting code so a
@@ -6,9 +7,9 @@ import { NavLink } from 'react-router-dom';
 const NavText = ({ href, text, isMain }) => {
   return (
     <Typography
-      variant={isMain ? 'h2' : 'h5'}
+      variant={isMain ? 'h4' : 'h5'}
       style={{
-        marginRight: '35px',
+        marginRight: '30px',
         fontFamily: 'sans-serif',
         fontWeight: 750,
         letterSpacing: '.3rem',
@@ -35,13 +36,10 @@ export default function NavBar() {
     <AppBar position='static'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <NavText href='/' text='Collow' isMain />
-        </Toolbar>
-      </Container>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <NavText href='/' text='COLLOW' isMain />
           <NavText href='/albums' text='ALBUMS' />
           <NavText href='/songs' text='SONGS' />
+          <NavText href='/counties' text = 'COUNTIES'/>
         </Toolbar>
       </Container>
     </AppBar>
