@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, Container, FormControlLabel, Grid, Link, Slider, TextField } from '@mui/material';
+import { Checkbox, Container, InputLabel, FormControl, FormControlLabel, Grid, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function CountiesPage() {
@@ -27,8 +27,39 @@ export default function CountiesPage() {
 
     
     return (
-        <div>
-            <h1>Hello there! Begin searching for your counties!</h1>
-        </div>
+        <Container>
+            <Typography variant='h3' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
+                Find the right county for you!
+            </Typography>
+            <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={"center"}>
+                <Grid item xs={6}>
+                    <TextField label='County Name' value={name} onChange={(e) => setName(e.target.value)} 
+                               style={{ width: "100%" }}/>
+                </Grid>
+                <Grid item xs={3}>
+                    <FormControlLabel 
+                        label='Sort By Hotness' 
+                        control={<Checkbox checked={sortByHotness} onChange={(e) => setSortByHotness(e.target.checked)}/>}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControl variant="filled" sx={{minWidth: 120}}>
+                        <InputLabel>Date</InputLabel>
+                        <Select
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            label="Date"    
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
+        </Container>
     )
 }

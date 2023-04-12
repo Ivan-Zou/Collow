@@ -1,5 +1,4 @@
 import { AppBar, Container, Toolbar, Typography } from '@mui/material'
-import { purple } from '@mui/material/colors';
 import { NavLink } from 'react-router-dom';
 
 // The hyperlinks in the NavBar contain a lot of repeated formatting code so a
