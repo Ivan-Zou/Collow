@@ -23,13 +23,13 @@ export default function CountiesPage() {
     const [month, setMonth] = useState(latest % 100);
     const [year, setYear] = useState(years[0]);
     // State to keep track of bounds for average price when querying
-    const [averagePrice, setAveragePrice] = useState([0, 1000000000]);
+    const [averagePrice, setAveragePrice] = useState([0, 10000000]);
     // State to keep track of bounds for median square foot when querying
     // State to keep track of bounds for supply score when querying
     const [supplyScore, setSupplyScore] = useState([0, 100]);
     // State to keep track of bounds for demand score when querying
     const [demandScore, setDemandScore] = useState([0, 100]);
-    const [medianSquareFoot, setMedianSquareFoot] = useState([0, 57000]);
+    const [medianSquareFoot, setMedianSquareFoot] = useState([0, 31000]);
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
     // State to keep track of whether to sort by hotness score or not
@@ -49,7 +49,7 @@ export default function CountiesPage() {
     return (
         <Container>
             {/*Header for the page*/}
-            <Typography variant='h3' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
+            <Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                 Find the right county for you!
             </Typography>
             {/*A container to hold all of our search parameters*/}
@@ -111,7 +111,7 @@ export default function CountiesPage() {
                     <Slider
                         value={averagePrice}
                         min={0}
-                        max={1000000000}
+                        max={10000000}
                         step={1000}
                         onChange={(e, newValue) => setAveragePrice(newValue)}
                         valueLabelDisplay='auto'
@@ -154,7 +154,7 @@ export default function CountiesPage() {
                     <Slider
                         value={medianSquareFoot}
                         min={0}
-                        max={57000}
+                        max={31000}
                         step={100}
                         onChange={(e, newValue) => setMedianSquareFoot(newValue)}
                         valueLabelDisplay='auto'
