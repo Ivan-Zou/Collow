@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, Container, InputLabel, FormControl, FormControlLabel, Grid, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { formatUnitNumber, formatPriceByThousand} from '../helpers/formatter';
 
 export default function CountiesPage() {
     // Have a query find the earliest date and the highest date for bounds on the date (Hardcoded for now)
@@ -105,16 +106,16 @@ export default function CountiesPage() {
             <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={'center'} style={{marginBottom: '40px'}}>
                 <Grid item xs={6}>
                     <Typography variant='p' color={'darkgreen'}>
-                        Average Price (millions)
+                        Average Price (thousands)
                     </Typography>
                     <Slider
                         value={averagePrice}
                         min={0}
                         max={1000000000}
-                        step={10000000}
+                        step={1000}
                         onChange={(e, newValue) => setAveragePrice(newValue)}
                         valueLabelDisplay='auto'
-                        valueLabelFormat={value => <div>{value / 10000000}</div>}
+                        valueLabelFormat={value => <div>{formatPriceByThousand(value / 1000)}</div>}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -125,7 +126,7 @@ export default function CountiesPage() {
                         value={supplyScore}
                         min={0}
                         max={100}
-                        step={5}
+                        step={1}
                         onChange={(e, newValue) => setSupplyScore(newValue)}
                         valueLabelDisplay='auto'
                     />
@@ -138,7 +139,7 @@ export default function CountiesPage() {
                         value={demandScore}
                         min={0}
                         max={100}
-                        step={5}
+                        step={1}
                         onChange={(e, newValue) => setDemandScore(newValue)}
                         valueLabelDisplay='auto'
                     />
@@ -157,6 +158,7 @@ export default function CountiesPage() {
                         step={100}
                         onChange={(e, newValue) => setMedianSquareFoot(newValue)}
                         valueLabelDisplay='auto'
+                        valueLabelFormat={value => <div>{formatUnitNumber(value)}</div>}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -167,9 +169,10 @@ export default function CountiesPage() {
                         value={activeListingCount}
                         min={0}
                         max={24000}
-                        step={100}
+                        step={10}
                         onChange={(e, newValue) => setActiveListingCount(newValue)}
                         valueLabelDisplay='auto'
+                        valueLabelFormat={value => <div>{formatUnitNumber(value)}</div>}
                     />
                 </Grid>
             </Grid>
