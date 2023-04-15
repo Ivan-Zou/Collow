@@ -24,26 +24,25 @@ export default function CountiesPage() {
     const [year, setYear] = useState(years[0]);
     // State to keep track of bounds for average price when querying
     const [averagePrice, setAveragePrice] = useState([0, 10000000]);
-    // State to keep track of bounds for median square foot when querying
+    // State to keep track of bounds for median square feet when querying
     // State to keep track of bounds for supply score when querying
     const [supplyScore, setSupplyScore] = useState([0, 100]);
     // State to keep track of bounds for demand score when querying
     const [demandScore, setDemandScore] = useState([0, 100]);
-    const [medianSquareFoot, setMedianSquareFoot] = useState([0, 31000]);
+    const [medianSquareFeet, setMedianSquareFeet] = useState([0, 31000]);
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
     // State to keep track of whether to sort by hotness score or not
     const [sortByHotness, setSortByHotness] = useState(false);
 
     // Columns for our result table
-    // TODO: For the name, add , renderCell: (params) => (Link to county card)
     const columns = [
         { field: 'name', headerName: 'Name', width: 200},
-        { field: 'averagePrice', headerName: 'Average Price', width: 250},
-        { field: 'supplyScore', headerName: 'Supply Score', width: 150},
-        { field: 'demandScore', headerName: 'Demand Score', width: 150 },
-        { field: 'medianSquareFoot', headerName: 'Median Square Foot', width: 200 },
-        { field: 'activeListingCount', headerName: 'Active Listing Count', width: 200 },
+        { field: 'average', headerName: 'Average Price', width: 250},
+        { field: 'supply', headerName: 'Supply Score', width: 150},
+        { field: 'demand', headerName: 'Demand Score', width: 150 },
+        { field: 'median_square_feet', headerName: 'Median Square Feet', width: 200 },
+        { field: 'active', headerName: 'Active Listing Count', width: 200 },
       ]
 
     return (
@@ -146,17 +145,17 @@ export default function CountiesPage() {
                 </Grid>
             </Grid>
             <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={'center'} style={{marginBottom: '40px'}}>
-                {/*Sliders for median square foot and active listings*/}
+                {/*Sliders for median square feet and active listings*/}
                 <Grid item xs={6}>
                     <Typography variant='p' color={'darkgreen'}>
-                        Median Square Foot
+                        Median Square Feet
                     </Typography>
                     <Slider
-                        value={medianSquareFoot}
+                        value={medianSquareFeet}
                         min={0}
                         max={31000}
                         step={100}
-                        onChange={(e, newValue) => setMedianSquareFoot(newValue)}
+                        onChange={(e, newValue) => setMedianSquareFeet(newValue)}
                         valueLabelDisplay='auto'
                         valueLabelFormat={value => <div>{formatUnitNumber(value)}</div>}
                     />
