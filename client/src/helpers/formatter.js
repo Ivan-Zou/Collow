@@ -22,3 +22,14 @@ export function formatUnitPrice(price) {
 export function formatPriceByThousand(price) {
   return formatUnitPrice(price) + "k";
 }
+
+// work in progress
+export function formatDate(date) {
+  const year = date.slice(0,4);
+  const month = date.slice(4,6);
+  return;
+}
+
+export function formatCountyName(name) {
+
+}
