@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { formatUnitPrice, formatDate, formatCountyName } from '../helpers/formatter';
+
 
 import LazyTable from '../components/LazyTable';
 import SongCard from '../components/SongCard';
 const config = require('../config.json');
+
 
 export default function HomePage() {
   // We use the setState hook to persist information across renders (such as the result of our API calls)
@@ -12,7 +15,9 @@ export default function HomePage() {
   const [appAuthor, setAppAuthor] = useState('');
   const [selectedSongId, setSelectedSongId] = useState(null);
 
+
   // States
+
 
   // The useEffect hook by default runs the provided callback after every render
   // The second (optional) argument, [], is the dependency array which signals
@@ -27,29 +32,36 @@ export default function HomePage() {
       .then(res => res.json())
       .then(resJson => setSongOfTheDay(resJson));
 
+
     fetch(`http://${config.server_host}:${config.server_port}/author`)
       .then(res => res.text())
       .then(resText => setAppAuthor(resText));
   }, []);
 
+
   const countyColumns = [
     {
       field: 'date',
-      headerName: "Date"
+      headerName: "Date",
+      // renderCell: (row) => formatDate(row.date) // Does not work rn. seems like row.date does not get the date for some reason idk why ;-;
     },
     {
       field: 'name',
       headerName: 'County',
+      renderCell: (row) => formatCountyName(row.name)
     },
     {
       field: 'median',
       headerName: 'Median Listing Price',
+      renderCell: (row) => formatUnitPrice(row.median)
     },
     {
       field: 'average',
-      headerName: 'Average Listing Price'
+      headerName: 'Average Listing Price',
+      renderCell: (row) => formatUnitPrice(row.average)
     },
   ];
+
 
   // Here, we define the columns of the "Top Songs" table. The songColumns variable is an array (in order)
   // of objects with each object representing a column. Each object has a "field" property representing
@@ -72,12 +84,6 @@ export default function HomePage() {
     },
   ];
 
-  // TODO (TASK 15): define the columns for the top albums (schema is Album Title, Plays), where Album Title is a link to the album page
-  // Hint: this should be very similar to songColumns defined above, but has 2 columns instead of 3
-  const albumColumns = [
-
-  ]
-
   return (
     <Container>
       {/* SongCard is a custom component that we made. selectedSongId && <SongCard .../> makes use of short-circuit logic to only render the SongCard if a non-null song is selected */}
@@ -89,7 +95,6 @@ export default function HomePage() {
       <h2>Latest County Listing Prices</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
-      {/* TODO (TASK 16): add a h2 heading, LazyTable, and divider for top albums. Set the LazyTable's props for defaultPageSize to 5 and rowsPerPageOptions to [5, 10] */}
       <p>{appAuthor}</p>
     </Container>
   );
