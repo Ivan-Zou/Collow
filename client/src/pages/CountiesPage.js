@@ -43,7 +43,16 @@ export default function CountiesPage() {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties`)
           .then(res => res.json())
           .then(resJson => {
-            const countiesWithId = resJson.map((county) => ({ id: county.id, name: formatCountyName(county.name), ...county })); // doesn't format anything
+            const countiesWithId = resJson.map((county) => (
+                { 
+                    id: county.id, 
+                    name: formatCountyName(county.name), 
+                    average: formatUnitPrice(county.average),
+                    supply: county.supply,
+                    demand: county.demand,
+                    median_square_feet: formatUnitNumber(county.median_square_feet),
+                    active: formatUnitNumber(county.active)
+                }));
             setData(countiesWithId);
           });
       }, []);
@@ -60,7 +69,16 @@ export default function CountiesPage() {
         )
         .then(res => res.json())
         .then(resJson => {
-            const countiesWithId = resJson.map((county) => ({ id: county.id, name: formatCountyName(county.name), ...county }));
+            const countiesWithId = resJson.map((county) => (
+                { 
+                    id: county.id, 
+                    name: formatCountyName(county.name), 
+                    average: formatUnitPrice(county.average),
+                    supply: county.supply,
+                    demand: county.demand,
+                    median_square_feet: formatUnitNumber(county.median_square_feet),
+                    active: formatUnitNumber(county.active) 
+                }));
             setData(countiesWithId);
         });
       }
