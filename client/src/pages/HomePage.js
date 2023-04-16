@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { formatUnitPrice, formatDate, formatCountyName } from '../helpers/formatter';
 
 import LazyTable from '../components/LazyTable';
 import SongCard from '../components/SongCard';
@@ -35,19 +36,23 @@ export default function HomePage() {
   const countyColumns = [
     {
       field: 'date',
-      headerName: "Date"
+      headerName: "Date",
+      // renderCell: (row) => formatDate(row.date) // Does not work rn. seems like row.date does not get the date for some reason idk why ;-;
     },
     {
       field: 'name',
       headerName: 'County',
+      renderCell: (row) => formatCountyName(row.name)
     },
     {
       field: 'median',
       headerName: 'Median Listing Price',
+      renderCell: (row) => formatUnitPrice(row.median)
     },
     {
       field: 'average',
-      headerName: 'Average Listing Price'
+      headerName: 'Average Listing Price',
+      renderCell: (row) => formatUnitPrice(row.average)
     },
   ];
 
