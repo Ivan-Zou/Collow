@@ -49,23 +49,7 @@ const county_listing_prices = async function(req, res) {
 const county_metrics = async function(req, res) {
   const page = req.query.page;
   const pageSize = req.query.page_size ?? 10;
-  const offset = pageSize * (page - 1);search_counties
-const search_counties = async function(req, res) {
-  const name = req.query.name ?? '';
-  const averagePriceLow  = req.query.average_price_low ?? 0;
-  const averagePriceHigh = req.query.average_price_high ?? 10000000;
-  const supplyScoreLow = req.query.supply_score_low ?? 0;
-  const supplyScoreHigh = req.query.supply_score_high ?? 100;
-  const demandScoreLow = req.query.demand_score_low ?? 0;
-  const demandScoreHigh = req.query.demand_score_high ?? 100;
-  const medianSquareFeetLow = req.query.median_square_feet_low ?? 0;
-  const medianSquareFeetHigh = req.query.median_square_feet_high ?? 31000;
-  const activeListingCountLow = req.query.active_listing_count_low ?? 0;
-  const activeListingCountHigh = req.query.active_listing_count_high ?? 24000;
-  const sortByHotness = req.query.sort_by_hotness === 'true' ? 1 : 0;
-  const year = req.query.year ?? "2023";
-  const month = req.query.month ?? "02";
-
+  const offset = pageSize * (page - 1);
   // LP.date is temporary just wanted to display data on the web page
   connection.query(`
   SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, SF.median_listing_price_per_square_foot,
@@ -83,6 +67,23 @@ const search_counties = async function(req, res) {
     }
   });
 }
+
+const search_counties = async function(req, res) {
+  const name = req.query.name ?? '';
+  const averagePriceLow  = req.query.average_price_low ?? 0;
+  const averagePriceHigh = req.query.average_price_high ?? 10000000;
+  const supplyScoreLow = req.query.supply_score_low ?? 0;
+  const supplyScoreHigh = req.query.supply_score_high ?? 100;
+  const demandScoreLow = req.query.demand_score_low ?? 0;
+  const demandScoreHigh = req.query.demand_score_high ?? 100;
+  const medianSquareFeetLow = req.query.median_square_feet_low ?? 0;
+  const medianSquareFeetHigh = req.query.median_square_feet_high ?? 31000;
+  const activeListingCountLow = req.query.active_listing_count_low ?? 0;
+  const activeListingCountHigh = req.query.active_listing_count_high ?? 24000;
+  const sortByHotness = req.query.sort_by_hotness === 'true' ? 1 : 0;
+  const year = req.query.year ?? "2023";
+  const month = req.query.month ?? "02";
+
   if (sortByHotness) {
     connection.query(`
     SELECT *
@@ -136,6 +137,6 @@ const search_counties = async function(req, res) {
 module.exports = {
   author,
   county_listing_prices,
-  county_metrics
+  county_metrics,
   search_counties,
 }
