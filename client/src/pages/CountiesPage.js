@@ -43,12 +43,11 @@ export default function CountiesPage() {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties`)
           .then(res => res.json())
           .then(resJson => {
-            const countiesWithId = resJson.map((county) => ({ id: county.id, ...county }));
+            const countiesWithId = resJson.map((county) => ({ id: county.id, name: formatCountyName(county.name), ...county })); // doesn't format anything
             setData(countiesWithId);
           });
       }, []);
 
-      // filling the table does not currently work; do not know why
       const search = () => {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties?name=${name}` +
         `&average_price_low=${averagePrice[0]}&average_price_high=${averagePrice[1]}` +
@@ -61,7 +60,7 @@ export default function CountiesPage() {
         )
         .then(res => res.json())
         .then(resJson => {
-            const countiesWithId = resJson.map((county) => ({ id: county.id, ...county }));
+            const countiesWithId = resJson.map((county) => ({ id: county.id, name: formatCountyName(county.name), ...county }));
             setData(countiesWithId);
         });
       }
@@ -72,13 +71,11 @@ export default function CountiesPage() {
             field: 'name', 
             headerName: 'Name', 
             width: 200, 
-            // renderCell: (row) => formatCountyName(row.name)
         },
         { 
             field: 'average', 
             headerName: 'Average Price', 
             width: 250, 
-            // renderCell: (row) => formatUnitPrice(row.average) // row.average is NaN
         },
         { 
             field: 'supply', 
@@ -94,13 +91,11 @@ export default function CountiesPage() {
             field: 'median_square_feet', 
             headerName: 'Median Square Feet', 
             width: 200, 
-            // renderCell: (row) => formatUnitNumber(row.median_square_feet) // row.median_square_feet also NaN
         },
         { 
             field: 'active', 
             headerName: 'Active Listing Count', 
             width: 200, 
-            // renderCell: (row) => formatUnitNumber(row.active) // row.active also NaN
         },
       ]
 
