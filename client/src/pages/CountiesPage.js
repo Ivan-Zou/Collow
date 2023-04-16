@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, Container, InputLabel, FormControl, FormControlLabel, Grid, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import CountyCard from '../components/CountyCard';
 
 export default function CountiesPage() {
     // Have a query find the earliest date and the highest date for bounds on the date (Hardcoded for now)
@@ -16,6 +17,8 @@ export default function CountiesPage() {
     const [pageSize, setPageSize] = useState(10);
     // State to keep track of the current counties being displayed 
     const [data, setData] = useState([]);
+    // State to keep track of which county card to display
+    const [selectedCounty, setSelectedCounty] = useState(null);
     // State to keep track of input to search bar
     const [name, setName] = useState('');
     // States to keep track of the date of the data that will be used to query (initially 02/2023)
@@ -31,8 +34,6 @@ export default function CountiesPage() {
     const [medianSquareFoot, setMedianSquareFoot] = useState([0, 57000]);
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
-    // State to keep track of whether to sort by hotness score or not
-    const [sortByHotness, setSortByHotness] = useState(false);
 
     // Columns for our result table
     // TODO: For the name, add , renderCell: (params) => (Link to county card)
@@ -47,6 +48,8 @@ export default function CountiesPage() {
 
     return (
         <Container>
+            {/*Render the CountyCard if a county has been selected */}
+            {selectedCounty && <CountyCard countyId={1001} handleClose={() => setSelectedCounty(null)} />}
             {/*Header for the page*/}
             <Typography variant='h3' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                 Find the right county for you!
@@ -57,13 +60,6 @@ export default function CountiesPage() {
                 <Grid item xs={6}>
                     <TextField label='County Name' value={name} onChange={(e) => setName(e.target.value)} 
                                style={{ width: "100%" }}/>
-                </Grid>
-                {/*Checkbox for whether we want our results sorted by Hotness values*/}
-                <Grid item xs={3}>
-                    <FormControlLabel 
-                        label='Sort By Hotness' 
-                        control={<Checkbox checked={sortByHotness} onChange={(e) => setSortByHotness(e.target.checked)}/>}
-                    />
                 </Grid>
                 {/*Drop down boxes to select the month and year for our data*/}
                 <Grid item xs={6}>
@@ -105,16 +101,16 @@ export default function CountiesPage() {
             <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={'center'} style={{marginBottom: '40px'}}>
                 <Grid item xs={6}>
                     <Typography variant='p' color={'darkgreen'}>
-                        Average Price (millions)
+                        Average Price (thousands)
                     </Typography>
                     <Slider
                         value={averagePrice}
                         min={0}
                         max={1000000000}
-                        step={10000000}
+                        step={1000}
                         onChange={(e, newValue) => setAveragePrice(newValue)}
                         valueLabelDisplay='auto'
-                        valueLabelFormat={value => <div>{value / 10000000}</div>}
+                        valueLabelFormat={value => <div>{value / 1000}</div>}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -174,7 +170,7 @@ export default function CountiesPage() {
                 </Grid>
             </Grid>
             {/*Search Button*/}
-            <Button style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
+            <Button onClick={() => setSelectedCounty(1)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
                 Search
             </Button>
             {/*Table with all the data*/}

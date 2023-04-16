@@ -45,10 +45,32 @@ const county_listing_prices = async function(req, res) {
   });
 }
 
-// Route 3: GET /
+// Route 3: GET /county_metrics
+const county_metrics = async function(req, res) {
+  const page = req.query.page;
+  const pageSize = req.query.page_size ?? 10;
+  const offset = pageSize * (page - 1);
 
+  // LP.date is temporary just wanted to display data on the web page
+  connection.query(`
+  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, SF.median_listing_price_per_square_foot,
+      SF.median_square_feet
+  FROM Listing_Price LP JOIN
+       Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
+       Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+  WHERE LP.id = 1001
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
 
 module.exports = {
   author,
   county_listing_prices,
+  county_metrics
 }
