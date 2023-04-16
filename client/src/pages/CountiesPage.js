@@ -25,7 +25,7 @@ export default function CountiesPage() {
     // State to keep track of input to search bar
     const [name, setName] = useState('');
     // States to keep track of the date of the data that will be used to query (initially 02/2023)
-    const [month, setMonth] = useState("" + latest % 100);
+    const [month, setMonth] = useState("02");
     const [year, setYear] = useState(years[0]);
     // State to keep track of bounds for average price when querying
     const [averagePrice, setAveragePrice] = useState([0, 10000000]);
@@ -138,7 +138,8 @@ export default function CountiesPage() {
                         <InputLabel>Month</InputLabel>
                         <Select
                             onChange={(e) => setMonth(e.target.value)}
-                            label="Month"   
+                            label="Month"
+                            defaultValue={"02"}   
                         >
                             <MenuItem value={"01"}>Jan</MenuItem>
                             <MenuItem value={"02"}>Feb</MenuItem>
@@ -160,6 +161,7 @@ export default function CountiesPage() {
                         <Select
                             onChange={(e) => setYear(e.target.value)}
                             label="Year"    
+                            defaultValue={2023}
                         >
                             {years.map(
                                 (x) => <MenuItem value={x}>{x}</MenuItem>
