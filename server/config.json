@@ -1,9 +1,0 @@
-{
-  "rds_host": "housing-database.cywooolr8hmb.us-east-1.rds.amazonaws.com",
-  "rds_port": "3306",
-  "rds_user": "admin",
-  "rds_password" : "Pianosax2002!$",
-  "rds_db": "HOUSING_DB",
-  "server_host": "localhost",
-  "server_port":"8080"
-}
