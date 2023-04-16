@@ -45,7 +45,30 @@ const county_listing_prices = async function(req, res) {
   });
 }
 
-// Route 3: GET /search_counties
+// Route 3: GET /county_metrics
+const county_metrics = async function(req, res) {
+  const page = req.query.page;
+  const pageSize = req.query.page_size ?? 10;
+  const offset = pageSize * (page - 1);
+
+  // LP.date is temporary just wanted to display data on the web page
+  connection.query(`
+  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, SF.median_listing_price_per_square_foot,
+  SF.median_square_feet
+  FROM Listing_Price LP JOIN
+       Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
+      Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+  WHERE LP.id = 1001
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 const search_counties = async function(req, res) {
   const name = req.query.name ?? '';
   const averagePriceLow  = req.query.average_price_low ?? 0;
@@ -58,42 +81,14 @@ const search_counties = async function(req, res) {
   const medianSquareFeetHigh = req.query.median_square_feet_high ?? 31000;
   const activeListingCountLow = req.query.active_listing_count_low ?? 0;
   const activeListingCountHigh = req.query.active_listing_count_high ?? 24000;
-  const sortByHotness = req.query.sort_by_hotness === 'true' ? 1 : 0;
   const year = req.query.year ?? "2023";
   const month = req.query.month ?? "02";
-
-  if (sortByHotness) {
-    connection.query(`
+  connection.query(`
     SELECT *
-    FROM County C JOIN Listing_Price LP ON C.id = LP.id
-      JOIN Listing_Count LC ON LP.id = LC.id
-      JOIN Square_Footage SF ON LC.id = SF.id
-      JOIN Hotness H ON SF.id = H.id
-      JOIN Supply_and_Demand SD ON H.id = SD.id
-    WHERE (name LIKE '%${name}%')
-      AND (average >= ${averagePriceLow} AND average <= ${averagePriceHigh})
-      AND (supply >= ${supplyScoreLow} AND supply <= ${supplyScoreHigh})
-      AND (demand >= ${demandScoreLow} AND demand <= ${demandScoreHigh})
-      AND (median_square_feet >= ${medianSquareFeetLow} AND median_square_feet <= ${medianSquareFeetHigh})
-      AND (active >= ${activeListingCountLow} AND active <= ${activeListingCountHigh})
-      AND (LP.date = ${parseInt(year + month)})
-    ORDER BY hotness
-  `, (err, data) => {
-    if (err || data.length == 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
-  } else {
-    connection.query(`
-    SELECT *
-    FROM County C JOIN Listing_Price LP ON C.id = LP.id
-      JOIN Listing_Count LC ON LP.id = LC.id
-      JOIN Square_Footage SF ON LC.id = SF.id
-      JOIN Hotness H ON SF.id = H.id
-      JOIN Supply_and_Demand SD ON H.id = SD.id
+    FROM County C JOIN Listing_Price LP ON C.id = LP.id 
+      JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date
+      JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+      JOIN Supply_and_Demand SD ON SF.id = SD.id AND SF.date = SD.date
       WHERE (name LIKE '%${name}%')
         AND (average >= ${averagePriceLow} AND average <= ${averagePriceHigh})
         AND (supply >= ${supplyScoreLow} AND supply <= ${supplyScoreHigh})
@@ -109,11 +104,12 @@ const search_counties = async function(req, res) {
       res.json(data);
     }
   });
-  }
 }
+
 
 module.exports = {
   author,
   county_listing_prices,
+  county_metrics,
   search_counties,
 }

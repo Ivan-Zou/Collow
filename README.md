@@ -8,25 +8,40 @@ Collow: The County Version of Zillow
 
 ## Directories:
 - client
+    - public 
+        - CollowLogo.png
+        - collowName.png
+        - index.html
     - src 
         - components
+            - CountyCard.js
+            - LazyTable.js
+            - NavBar.js
             - in progress
         - helpers
-            - in progress
+            - formatter.js
         - pages
+            - CountiesPage.js
+            - HomePage.js
             - in progress
         - App.js
         - config.json
         - index.js
     - .gitignore
-    - config.json
     - package-lock.json
+    - package.json
 - data
-    - in progress
+    - County.csv
+    - Hotness.csv
+    - Listing_Count.csv
+    - Listing_Price.csv
+    - Square_Footage.csv
+    - Supply_and_Demand.csv
 - server
     - .gitignore
     - config.json
     - package-lock.json
+    - package.json
     - routes.js
     - server.js
 - README.md

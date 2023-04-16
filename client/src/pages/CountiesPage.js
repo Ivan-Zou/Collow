@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, Container, InputLabel, FormControl, FormControlLabel, Grid, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import CountyCard from '../components/CountyCard';
 
 import { formatUnitNumber, formatPriceByThousand} from '../helpers/formatter';
 const config = require('../config.json');
@@ -19,6 +20,8 @@ export default function CountiesPage() {
     const [pageSize, setPageSize] = useState(10);
     // State to keep track of the current counties being displayed 
     const [data, setData] = useState([]);
+    // State to keep track of which county card to display
+    const [selectedCounty, setSelectedCounty] = useState(null);
     // State to keep track of input to search bar
     const [name, setName] = useState('');
     // States to keep track of the date of the data that will be used to query (initially 02/2023)
@@ -34,8 +37,7 @@ export default function CountiesPage() {
     const [medianSquareFeet, setMedianSquareFeet] = useState([0, 31000]);
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
-    // State to keep track of whether to sort by hotness score or not
-    const [sortByHotness, setSortByHotness] = useState(false);
+    
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties`)
@@ -54,7 +56,6 @@ export default function CountiesPage() {
         `&demand_score_low=${demandScore[0]}&demand_score_high=${demandScore[1]}` +
         `&median_square_feet_low=${medianSquareFeet[0]}&median_square_feet_high=${medianSquareFeet[1]}` +
         `&active_listing_count_low=${activeListingCount[0]}&active_listing_count_high=${activeListingCount[1]}` +
-        `&sort_by_hotness=${sortByHotness}` +
         `&year=${year}` +
         `&month=${month}`
         )
@@ -77,6 +78,8 @@ export default function CountiesPage() {
 
     return (
         <Container>
+            {/*Render the CountyCard if a county has been selected */}
+            {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} />}
             {/*Header for the page*/}
             <Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                 Find the right county for you!
@@ -87,13 +90,6 @@ export default function CountiesPage() {
                 <Grid item xs={6}>
                     <TextField label='County Name' value={name} onChange={(e) => setName(e.target.value)} 
                                style={{ width: "100%" }}/>
-                </Grid>
-                {/*Checkbox for whether we want our results sorted by Hotness values*/}
-                <Grid item xs={3}>
-                    <FormControlLabel 
-                        label='Sort By Hotness' 
-                        control={<Checkbox checked={sortByHotness} onChange={(e) => setSortByHotness(e.target.checked)}/>}
-                    />
                 </Grid>
                 {/*Drop down boxes to select the month and year for our data*/}
                 <Grid item xs={6}>
@@ -209,6 +205,11 @@ export default function CountiesPage() {
             <Button onClick={() => search() } style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
                 Search
             </Button>
+            <Grid>
+                <Button onClick={() =>  setSelectedCounty(1001)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
+                    Test County Card
+                </Button>
+            </Grid>
             {/*Table with all the data*/}
             <Typography variant='h4' color={'darkgreen'} style={{marginBottom: '40px'}}>
                 Results
