@@ -3,7 +3,7 @@ import { Button, Checkbox, Container, InputLabel, FormControl, FormControlLabel,
 import { DataGrid } from '@mui/x-data-grid';
 import CountyCard from '../components/CountyCard';
 
-import { formatUnitNumber, formatPriceByThousand} from '../helpers/formatter';
+import { formatUnitNumber, formatUnitPrice, formatPriceByThousand, formatCountyName} from '../helpers/formatter';
 const config = require('../config.json');
 
 export default function CountiesPage() {
@@ -68,12 +68,40 @@ export default function CountiesPage() {
 
     // Columns for our result table
     const columns = [
-        { field: 'name', headerName: 'Name', width: 200},
-        { field: 'average', headerName: 'Average Price', width: 250},
-        { field: 'supply', headerName: 'Supply Score', width: 150},
-        { field: 'demand', headerName: 'Demand Score', width: 150 },
-        { field: 'median_square_feet', headerName: 'Median Square Feet', width: 200 },
-        { field: 'active', headerName: 'Active Listing Count', width: 200 },
+        { 
+            field: 'name', 
+            headerName: 'Name', 
+            width: 200, 
+            // renderCell: (row) => formatCountyName(row.name)
+        },
+        { 
+            field: 'average', 
+            headerName: 'Average Price', 
+            width: 250, 
+            // renderCell: (row) => formatUnitPrice(row.average) // row.average is NaN
+        },
+        { 
+            field: 'supply', 
+            headerName: 'Supply Score', 
+            width: 150
+        },
+        {
+            field: 'demand', 
+            headerName: 'Demand Score', 
+            width: 150 
+        },
+        {
+            field: 'median_square_feet', 
+            headerName: 'Median Square Feet', 
+            width: 200, 
+            // renderCell: (row) => formatUnitNumber(row.median_square_feet) // row.median_square_feet also NaN
+        },
+        { 
+            field: 'active', 
+            headerName: 'Active Listing Count', 
+            width: 200, 
+            // renderCell: (row) => formatUnitNumber(row.active) // row.active also NaN
+        },
       ]
 
     return (
@@ -202,16 +230,16 @@ export default function CountiesPage() {
                 </Grid>
             </Grid>
             {/*Search Button*/}
-            <Button onClick={() => search() } style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
+            <Button onClick={() => search() } style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
                 Search
             </Button>
             <Grid>
-                <Button onClick={() =>  setSelectedCounty(1001)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
+                <Button onClick={() =>  setSelectedCounty(1001)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
                     Test County Card
                 </Button>
             </Grid>
             {/*Table with all the data*/}
-            <Typography variant='h4' color={'darkgreen'} style={{marginBottom: '40px'}}>
+            <Typography variant='h4' color={'darkgreen'} style={{marginBottom: '20px', textAlign: 'center'}}>
                 Results
             </Typography>
             <DataGrid
