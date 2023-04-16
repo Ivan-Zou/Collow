@@ -28,7 +28,7 @@ export default function CountyCard({countyId, handleClose}) {
     const [pricePerSquareFoot, setPricePerSquareFoot] = useState(false);
 
     useEffect(() => {
-        fetch(`http://${config.server_host}:${config.server_port}/get_county_metrics/${countyId}`)
+        fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
             .then(res => res.json())
             .then(resJson => {
                 console.log(resJson);

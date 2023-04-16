@@ -37,6 +37,7 @@ export default function CountiesPage() {
     const [medianSquareFeet, setMedianSquareFeet] = useState([0, 31000]);
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
+    
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties`)
@@ -55,7 +56,6 @@ export default function CountiesPage() {
         `&demand_score_low=${demandScore[0]}&demand_score_high=${demandScore[1]}` +
         `&median_square_feet_low=${medianSquareFeet[0]}&median_square_feet_high=${medianSquareFeet[1]}` +
         `&active_listing_count_low=${activeListingCount[0]}&active_listing_count_high=${activeListingCount[1]}` +
-        `&sort_by_hotness=${sortByHotness}` +
         `&year=${year}` +
         `&month=${month}`
         )
@@ -79,7 +79,7 @@ export default function CountiesPage() {
     return (
         <Container>
             {/*Render the CountyCard if a county has been selected */}
-            {selectedCounty && <CountyCard countyId={1001} handleClose={() => setSelectedCounty(null)} />}
+            {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} />}
             {/*Header for the page*/}
             <Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                 Find the right county for you!
@@ -205,6 +205,11 @@ export default function CountiesPage() {
             <Button onClick={() => search() } style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
                 Search
             </Button>
+            <Grid>
+                <Button onClick={() =>  setSelectedCounty(1001)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '30px' }}>
+                    Test County Card
+                </Button>
+            </Grid>
             {/*Table with all the data*/}
             <Typography variant='h4' color={'darkgreen'} style={{marginBottom: '40px'}}>
                 Results
