@@ -28,7 +28,6 @@ const county_listing_prices = async function(req, res) {
   const pageSize = req.query.page_size ?? 10;
   const offset = pageSize * (page - 1);
 
-  // LP.date is temporary just wanted to display data on the web page
   connection.query(`
     SELECT C.id, LP.date, C.name, LP.median, LP.average
     FROM County C JOIN Listing_Price LP ON C.id = LP.id
@@ -51,7 +50,6 @@ const county_metrics = async function(req, res) {
   const pageSize = req.query.page_size ?? 10;
   const offset = pageSize * (page - 1);
 
-  // LP.date is temporary just wanted to display data on the web page
   connection.query(`
   SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, SF.median_listing_price_per_square_foot,
   SF.median_square_feet
@@ -69,6 +67,7 @@ const county_metrics = async function(req, res) {
   });
 }
 
+// ROUTE 4: GET /search_counties
 const search_counties = async function(req, res) {
   const name = req.query.name ?? '';
   const averagePriceLow  = req.query.average_price_low ?? 0;
