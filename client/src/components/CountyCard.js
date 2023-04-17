@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Tabs, Tab, Typography, Modal } from '@mui/material';
-import { ResponsiveContainer, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, Line, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 import { NavLink } from 'react-router-dom';
 
 const config = require('../config.json');
@@ -40,6 +40,7 @@ export default function CountyCard({countyId, handleClose}) {
     const handleTabChange = (event, newTabIndex) => {
         setGraphToDisplay(newTabIndex);
     };
+
     /*
     {countyData ? (<h1> Hello </h1>) : (<h1> Bye Bye</h1>)}
                 <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
@@ -124,7 +125,7 @@ export default function CountyCard({countyId, handleClose}) {
                     flexDirection: 'column',
                     justifyContent: 'center',  
                     alignItems: 'center',
-                    width: 800 
+                    width: 1200 
                 }}
             >   
                 <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
@@ -133,7 +134,7 @@ export default function CountyCard({countyId, handleClose}) {
                 <Tabs value={graphToDisplay} onChange={handleTabChange}>
                     <Tab label="Prices"/>
                     <Tab label="Listings"/>
-                    <Tab label="Size"/>
+                    <Tab label="Square Footage"/>
                     <Tab label="Hotness"/>
                 </Tabs>
                 {graphToDisplay === 0 && (
@@ -158,17 +159,23 @@ export default function CountyCard({countyId, handleClose}) {
                                 label="Med. Price"
                                 labelPlacement='start'
                             />
-                            <FormControlLabel 
-                                control={<Checkbox checked={pricePerSquareFoot} onChange={() => setPricePerSquareFoot(!pricePerSquareFoot)}/>}
-                                label="Median Price Per Sq. Ft."
-                                labelPlacement='start'
-                            />
                         </ButtonGroup>
+                        <ResponsiveContainer height={250}>
+                            <LineChart data={countyData} style={{width: '1100px'}}>
+                                <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                                <YAxis></YAxis>
+                                <Legend></Legend>
+                                <Tooltip></Tooltip>
+                                {avgPrice && <Line dataKey="Average" stroke="black" activeDot={{ r: 8 }}/>}
+                                {medPrice && <Line dataKey="Median" stroke="red" activeDot={{ r: 8 }}/>}
+                            </LineChart>
+                        </ResponsiveContainer>
                     </Box>
                 )}
                 {graphToDisplay === 1 && (
                     <Box style={{
                         padding: '20px',
+                        width: '800',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',  
@@ -189,6 +196,14 @@ export default function CountyCard({countyId, handleClose}) {
                                 labelPlacement='start'
                             />
                         </ButtonGroup>
+                        <ResponsiveContainer height={250}>
+                            <LineChart data={countyData} style={{width: '1100px'}}>
+                                <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                                <YAxis></YAxis>
+                                <Legend></Legend>
+                                <Tooltip></Tooltip>
+                            </LineChart>
+                        </ResponsiveContainer>
                     </Box>
                 )}
                 {graphToDisplay === 2 && (
@@ -202,6 +217,26 @@ export default function CountyCard({countyId, handleClose}) {
                         <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
                             Check out these cool sizes!
                         </Typography>
+                        <ButtonGroup>
+                            <FormControlLabel 
+                                control={<Checkbox checked={medSquareFoot} onChange={() => setMedSquareFoot(!medSquareFoot)}/>}
+                                label="Median Sq. Feet"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={pricePerSquareFoot} onChange={() => setPricePerSquareFoot(!pricePerSquareFoot)}/>}
+                                label="Median Price Per Sq. Ft."
+                                labelPlacement='start'
+                            />
+                        </ButtonGroup>
+                        <ResponsiveContainer height={250}>
+                            <LineChart data={countyData} style={{width: '1100px'}}>
+                                <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                                <YAxis></YAxis>
+                                <Legend></Legend>
+                                <Tooltip></Tooltip>
+                            </LineChart>
+                        </ResponsiveContainer>
                     </Box>
                 )}
                 {graphToDisplay === 3 && (
@@ -232,6 +267,14 @@ export default function CountyCard({countyId, handleClose}) {
                                 labelPlacement='start'
                             />
                         </ButtonGroup>
+                        <ResponsiveContainer height={250}>
+                            <LineChart data={countyData} style={{width: '1100px'}}>
+                                <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                                <YAxis></YAxis>
+                                <Legend></Legend>
+                                <Tooltip></Tooltip>
+                            </LineChart>
+                        </ResponsiveContainer>
                     </Box>
                 )}
                 <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
