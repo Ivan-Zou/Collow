@@ -29,10 +29,3 @@ export function formatCountyName(name) {
   const state = countyState[1];
   return county[0].toUpperCase() + county.slice(1) + ", " + state.toUpperCase();
 }
-
-// work in progress
-export function formatDate(date) {
-  const year = date.slice(0,4);
-  const month = date.slice(4,6);
-  return;
-}

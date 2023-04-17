@@ -43,7 +43,6 @@ export default function HomePage() {
     {
       field: 'date',
       headerName: "Date",
-      // renderCell: (row) => formatDate(row.date) // Does not work rn. seems like row.date does not get the date for some reason idk why ;-;
     },
     {
       field: 'name',

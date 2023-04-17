@@ -29,7 +29,7 @@ const county_listing_prices = async function(req, res) {
   const offset = pageSize * (page - 1);
 
   connection.query(`
-    SELECT C.id, LP.date, C.name, LP.median, LP.average
+    SELECT C.id, CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, C.name, LP.median, LP.average
     FROM County C JOIN Listing_Price LP ON C.id = LP.id
     WHERE LP.date = 202302
     ORDER BY LP.median
