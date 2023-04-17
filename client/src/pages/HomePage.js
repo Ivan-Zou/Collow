@@ -61,6 +61,39 @@ export default function HomePage() {
     },
   ];
 
+  const testColumns = [
+    {
+      field: 'date',
+      headerName: "Date",
+    },
+    {
+      field: 'average',
+      headerName: 'Average Listing Price',
+      renderCell: (row) => formatUnitPrice(row.average)
+    },
+    {
+      field: 'median',
+      headerName: 'Median Listing Price',
+      renderCell: (row) => formatUnitPrice(row.median)
+    },
+    {
+      field: 'active',
+      headerName: 'Active Listings'
+    },
+    {
+      field: 'total',
+      headerName: 'Total Listings'
+    },
+    {
+      field: 'median_listing_price_per_square_foot',
+      headerName: 'Median Listing Price Per Sq. Ft.'
+    },
+    {
+      field: 'median_square_feet',
+      headerName: 'Median Sq. Ft.'
+    }
+  ];
+
 
   // Here, we define the columns of the "Top Songs" table. The songColumns variable is an array (in order)
   // of objects with each object representing a column. Each object has a "field" property representing
@@ -93,6 +126,9 @@ export default function HomePage() {
       <Divider />
       <h2>Latest County Listing Prices</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
+      <Divider />
+      <h2>Testing County Metrics</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_metrics`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <p>{appAuthor}</p>
     </Container>

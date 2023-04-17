@@ -44,7 +44,7 @@ const county_listing_prices = async function(req, res) {
   });
 }
 
-// Route 3: GET /county_metrics
+// Route 3: GET /county_metrics/:id
 const county_metrics = async function(req, res) {
   const page = req.query.page;
   const pageSize = req.query.page_size ?? 10;
@@ -57,6 +57,7 @@ const county_metrics = async function(req, res) {
        Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
       Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
   WHERE LP.id = 1001
+  LIMIT ${pageSize} OFFSET ${offset}
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
