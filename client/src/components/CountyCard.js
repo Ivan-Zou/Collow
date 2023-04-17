@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Typography, Modal } from '@mui/material';
+import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Tabs, Tab, Typography, Modal } from '@mui/material';
 import { ResponsiveContainer, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 import { NavLink } from 'react-router-dom';
 
@@ -26,6 +26,7 @@ export default function CountyCard({countyId, handleClose}) {
     const [demand, setDemand] = useState(false);
     // State to keep track of whether to display median price per square foot
     const [pricePerSquareFoot, setPricePerSquareFoot] = useState(false);
+    const [graphToDisplay, setGraphToDisplay] = useState(1);
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
@@ -35,6 +36,10 @@ export default function CountyCard({countyId, handleClose}) {
                 setCountyData(resJson);
             })
     }, []);
+
+    const handleTabChange = (event, newTabIndex) => {
+        setGraphToDisplay(newTabIndex);
+    };
     /*
     {countyData ? (<h1> Hello </h1>) : (<h1> Bye Bye</h1>)}
                 <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
@@ -122,6 +127,38 @@ export default function CountyCard({countyId, handleClose}) {
                     width: 800 
                 }}
             >   
+                <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                    County Name (Styled :D)
+                </Typography>
+                <Tabs value={graphToDisplay} onChange={handleTabChange}>
+                    <Tab label="Prices"/>
+                    <Tab label="Listings"/>
+                    <Tab label="Hotness"/>
+                </Tabs>
+                {graphToDisplay === 0 && (
+                    <Box style={{padding: '20px'}}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                            Check out these cool prices!
+                        </Typography>
+                    </Box>
+                )}
+                {graphToDisplay === 1 && (
+                    <Box style={{padding: '20px'}}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                            Check out these cool listings!
+                        </Typography>
+                    </Box>
+                )}
+                {graphToDisplay === 2 && (
+                    <Box style={{padding: '20px'}}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                            Check out these cool scores!
+                        </Typography>
+                    </Box>
+                )}
+                <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
+                    Close
+                </Button>
             </Box>
         </Modal>
     )
