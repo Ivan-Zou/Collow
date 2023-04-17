@@ -35,6 +35,74 @@ export default function CountyCard({countyId, handleClose}) {
                 setCountyData(resJson);
             })
     }, []);
+    /*
+    {countyData ? (<h1> Hello </h1>) : (<h1> Bye Bye</h1>)}
+                <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                    County Name (Styled :D)
+                </Typography>
+                <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
+                    <FormControlLabel 
+                        control={<Checkbox checked={avgPrice} onChange={() => setAvgPrice(!avgPrice)}/>}
+                        label="Avg. $"
+                        labelPlacement='start'
+                    />
+                    <FormControlLabel 
+                        control={<Checkbox checked={medPrice} onChange={() => setMedPrice(!medPrice)}/>}
+                        label="Med. $"
+                        labelPlacement='start'
+                    />
+                    <FormControlLabel 
+                        control={<Checkbox checked={pricePerSquareFoot} onChange={() => setPricePerSquareFoot(!pricePerSquareFoot)}/>}
+                        label="$ Per Sq. Ft."
+                        labelPlacement='start'
+                    />
+                </ButtonGroup>
+                <ButtonGroup>
+                    <FormControlLabel 
+                        control={<Checkbox checked={activeListings} onChange={() => setActiveListings(!activeListings)}/>}
+                        label="Act. Listings"
+                        labelPlacement='start'
+                    />
+                    <FormControlLabel 
+                        control={<Checkbox checked={totalListings} onChange={() => setTotalListings(!totalListings)}/>}
+                        label="Ttl. Listings"
+                        labelPlacement='start'
+                    />
+                </ButtonGroup>
+                <ResponsiveContainer height={250}>
+                    <LineChart data={countyData}>
+                        <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                        <YAxis></YAxis>
+                        <Legend></Legend>
+                        <Tooltip></Tooltip>
+                    </LineChart>
+                </ResponsiveContainer>
+                <ButtonGroup style={{}}>
+                    <FormControlLabel 
+                        control={<Checkbox checked={hotness} onChange={() => setHotness(!hotness)}/>}
+                        label="Hotness"
+                        labelPlacement='start'
+                    />
+                    <FormControlLabel 
+                        control={<Checkbox checked={supply} onChange={() => setSupply(!supply)}/>}
+                        label="Supply"
+                        labelPlacement='start'
+                    />
+                    <FormControlLabel 
+                        control={<Checkbox checked={demand} onChange={() => setDemand(!demand)}/>}
+                        label="Demand"
+                        labelPlacement='start'
+                    />
+                </ButtonGroup>
+                <FormControlLabel 
+                        control={<Checkbox checked={medSquareFoot} onChange={() => setMedSquareFoot(!medSquareFoot)}/>}
+                        label="Med. Sq. Ft."
+                        labelPlacement='start'
+                />
+                <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
+                    Close
+                </Button>
+    */
     return (
         <Modal
             open={true}
@@ -54,72 +122,6 @@ export default function CountyCard({countyId, handleClose}) {
                     width: 800 
                 }}
             >   
-                {countyData ? (<h1> Hello </h1>) : (<h1> Bye Bye</h1>)}
-                <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
-                    County Name (Styled :D)
-                </Typography>
-                <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
-                    <FormControlLabel 
-                        control={<Checkbox checked={avgPrice} onChange={() => setAvgPrice(!avgPrice)}/>}
-                        label="Avg. $"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={medPrice} onChange={() => setMedPrice(!medPrice)}/>}
-                        label="Med. $"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={activeListings} onChange={() => setActiveListings(!activeListings)}/>}
-                        label="Act. Listings"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={totalListings} onChange={() => setTotalListings(!totalListings)}/>}
-                        label="Ttl. Listings"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={medSquareFoot} onChange={() => setMedSquareFoot(!medSquareFoot)}/>}
-                        label="Med. Sq. Ft."
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={pricePerSquareFoot} onChange={() => setPricePerSquareFoot(!pricePerSquareFoot)}/>}
-                        label="$ Per Sq. Ft."
-                        labelPlacement='start'
-                    />
-                </ButtonGroup>
-                {/*
-                <ResponsiveContainer height={250}>
-                    <LineChart data={countyData}>
-                        <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
-                        <YAxis></YAxis>
-                        <Legend></Legend>
-                        <Tooltip></Tooltip>
-                    </LineChart>
-                </ResponsiveContainer>
-                */}
-                <ButtonGroup style={{}}>
-                    <FormControlLabel 
-                        control={<Checkbox checked={hotness} onChange={() => setHotness(!hotness)}/>}
-                        label="Hotness"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={supply} onChange={() => setSupply(!supply)}/>}
-                        label="Supply"
-                        labelPlacement='start'
-                    />
-                    <FormControlLabel 
-                        control={<Checkbox checked={demand} onChange={() => setDemand(!demand)}/>}
-                        label="Demand"
-                        labelPlacement='start'
-                    />
-                </ButtonGroup>
-                <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
-                    Close
-                </Button>
             </Box>
         </Modal>
     )
