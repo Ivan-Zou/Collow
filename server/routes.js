@@ -48,7 +48,7 @@ const county_listing_prices = async function(req, res) {
 const county_metrics = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
-  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average AS Average, LP.median AS Median, LC.active AS Active, LC.total AS Total, 
+  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, 
   SF.median_listing_price_per_square_foot, SF.median_square_feet
   FROM Listing_Price LP JOIN
        Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN

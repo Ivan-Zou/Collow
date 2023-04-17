@@ -166,8 +166,8 @@ export default function CountyCard({countyId, handleClose}) {
                                 <YAxis></YAxis>
                                 <Legend></Legend>
                                 <Tooltip></Tooltip>
-                                {avgPrice && <Line dataKey="Average" stroke="black" activeDot={{ r: 8 }}/>}
-                                {medPrice && <Line dataKey="Median" stroke="red" activeDot={{ r: 8 }}/>}
+                                {avgPrice && <Line dataKey="average" stroke="black" activeDot={{ r: 8 }}/>}
+                                {medPrice && <Line dataKey="median" stroke="red" activeDot={{ r: 8 }}/>}
                             </LineChart>
                         </ResponsiveContainer>
                     </Box>
@@ -202,6 +202,8 @@ export default function CountyCard({countyId, handleClose}) {
                                 <YAxis></YAxis>
                                 <Legend></Legend>
                                 <Tooltip></Tooltip>
+                                {activeListings && <Line dataKey="active" stroke="black" activeDot={{ r: 8 }}/>}
+                                {totalListings && <Line dataKey="total" stroke="red" activeDot={{ r: 8 }}/>}
                             </LineChart>
                         </ResponsiveContainer>
                     </Box>
@@ -237,6 +239,8 @@ export default function CountyCard({countyId, handleClose}) {
                                 <Tooltip></Tooltip>
                             </LineChart>
                         </ResponsiveContainer>
+                        {medSquareFoot && <Line dataKey="median_square_feet" stroke="black" activeDot={{ r: 8 }}/>}
+                        {pricePerSquareFoot && <Line dataKey="median_listing_price_per_square_foot" stroke="red" activeDot={{ r: 8 }}/>}
                     </Box>
                 )}
                 {graphToDisplay === 3 && (
