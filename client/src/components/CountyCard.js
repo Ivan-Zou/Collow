@@ -145,9 +145,6 @@ export default function CountyCard({countyId, handleClose}) {
                         justifyContent: 'center',  
                         alignItems: 'center'
                     }}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>  
-                            Check out these cool prices!
-                        </Typography>
                         <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
                             <FormControlLabel 
                                 control={<Checkbox checked={avgPrice} onChange={() => setAvgPrice(!avgPrice)}/>}
@@ -181,9 +178,6 @@ export default function CountyCard({countyId, handleClose}) {
                         justifyContent: 'center',  
                         alignItems: 'center'
                     }}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
-                            Check out these cool listings!
-                        </Typography>
                         <ButtonGroup style={{display: 'flex', alignItems: 'center'}}>
                             <FormControlLabel 
                                 control={<Checkbox checked={activeListings} onChange={() => setActiveListings(!activeListings)}/>}
@@ -216,9 +210,6 @@ export default function CountyCard({countyId, handleClose}) {
                         justifyContent: 'center',  
                         alignItems: 'center'
                     }}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
-                            Check out these cool sizes!
-                        </Typography>
                         <ButtonGroup>
                             <FormControlLabel 
                                 control={<Checkbox checked={medSquareFoot} onChange={() => setMedSquareFoot(!medSquareFoot)}/>}
@@ -237,10 +228,10 @@ export default function CountyCard({countyId, handleClose}) {
                                 <YAxis></YAxis>
                                 <Legend></Legend>
                                 <Tooltip></Tooltip>
+                                {medSquareFoot && <Line dataKey="median_square_feet" stroke="black" activeDot={{ r: 8 }}/>}
+                                {pricePerSquareFoot && <Line dataKey="median_listing_price_per_square_foot" stroke="red" activeDot={{ r: 8 }}/>}
                             </LineChart>
                         </ResponsiveContainer>
-                        {medSquareFoot && <Line dataKey="median_square_feet" stroke="black" activeDot={{ r: 8 }}/>}
-                        {pricePerSquareFoot && <Line dataKey="median_listing_price_per_square_foot" stroke="red" activeDot={{ r: 8 }}/>}
                     </Box>
                 )}
                 {graphToDisplay === 3 && (
