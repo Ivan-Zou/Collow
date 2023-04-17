@@ -46,17 +46,18 @@ const county_listing_prices = async function(req, res) {
 
 // Route 3: GET /county_metrics/:id
 const county_metrics = async function(req, res) {
+  const countyId = req.params.id;
+  console.log(countyId);
   const page = req.query.page;
   const pageSize = req.query.page_size ?? 10;
   const offset = pageSize * (page - 1);
-
   connection.query(`
   SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, SF.median_listing_price_per_square_foot,
   SF.median_square_feet
   FROM Listing_Price LP JOIN
        Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
       Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
-  WHERE LP.id = 1001
+  WHERE LP.id = ${countyId}
   LIMIT ${pageSize} OFFSET ${offset}
   `, (err, data) => {
     if (err || data.length === 0) {

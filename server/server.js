@@ -12,7 +12,7 @@ app.use(cors({
 // provide their handlers that we implemented in routes.js
 app.get('/author', routes.author);
 app.get('/county_listing_prices', routes.county_listing_prices);
-app.get('/county_metrics', routes.county_metrics);
+app.get('/county_metrics/:id', routes.county_metrics);
 app.get('/search_counties', routes.search_counties);
 
 app.listen(config.server_port, () => {

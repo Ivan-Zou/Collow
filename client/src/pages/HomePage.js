@@ -128,7 +128,7 @@ export default function HomePage() {
       <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <h2>Testing County Metrics</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_metrics`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_metrics/1001`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <p>{appAuthor}</p>
     </Container>
