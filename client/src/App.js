@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { green, lightGreen } from '@mui/material/colors'
+import { lightGreen } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
 
 import NavBar from './components/NavBar';
@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import AlbumsPage from './pages/AlbumsPage';
 import SongsPage from './pages/SongsPage';
 import AlbumInfoPage from './pages/AlbumInfoPage'
-import CountiesPage from "./pages/CountiesPage";
+import SearchCountiesPage from "./pages/SearchCountiesPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -34,7 +34,7 @@ export default function App() {
           <Route path="/albums" element={<AlbumsPage />} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/songs" element={<SongsPage />} />
-          <Route path="/counties" element={<CountiesPage />} />
+          <Route path="/search_counties" element={<SearchCountiesPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

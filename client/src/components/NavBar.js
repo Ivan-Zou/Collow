@@ -11,7 +11,7 @@ const NavText = ({ href, text, isMain }) => {
         marginRight: '35px',
         fontFamily: 'sans-serif',
         fontWeight: 700,
-        letterSpacing: '.2rem',
+        letterSpacing: '.15rem',
       }}
     >
       <NavLink
@@ -38,7 +38,7 @@ export default function NavBar() {
         <NavText href='/' text='Home' isMain />
           <NavText href='/albums' text='Albums' />
           <NavText href='/songs' text='Songs' />
-          <NavText href='/counties' text = 'Counties'/>
+          <NavText href='/search_counties' text = 'Search Counties'/>
         </Toolbar>
       </Container>
     </AppBar>
