@@ -133,27 +133,105 @@ export default function CountyCard({countyId, handleClose}) {
                 <Tabs value={graphToDisplay} onChange={handleTabChange}>
                     <Tab label="Prices"/>
                     <Tab label="Listings"/>
+                    <Tab label="Size"/>
                     <Tab label="Hotness"/>
                 </Tabs>
                 {graphToDisplay === 0 && (
-                    <Box style={{padding: '20px'}}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                    <Box style={{
+                        padding: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',  
+                        alignItems: 'center'
+                    }}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>  
                             Check out these cool prices!
                         </Typography>
+                        <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
+                            <FormControlLabel 
+                                control={<Checkbox checked={avgPrice} onChange={() => setAvgPrice(!avgPrice)}/>}
+                                label="Avg. Price"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={medPrice} onChange={() => setMedPrice(!medPrice)}/>}
+                                label="Med. Price"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={pricePerSquareFoot} onChange={() => setPricePerSquareFoot(!pricePerSquareFoot)}/>}
+                                label="Median Price Per Sq. Ft."
+                                labelPlacement='start'
+                            />
+                        </ButtonGroup>
                     </Box>
                 )}
                 {graphToDisplay === 1 && (
-                    <Box style={{padding: '20px'}}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                    <Box style={{
+                        padding: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',  
+                        alignItems: 'center'
+                    }}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
                             Check out these cool listings!
                         </Typography>
+                        <ButtonGroup style={{display: 'flex', alignItems: 'center'}}>
+                            <FormControlLabel 
+                                control={<Checkbox checked={activeListings} onChange={() => setActiveListings(!activeListings)}/>}
+                                label="Active Listings"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={totalListings} onChange={() => setTotalListings(!totalListings)}/>}
+                                label="Total Listings"
+                                labelPlacement='start'
+                            />
+                        </ButtonGroup>
                     </Box>
                 )}
                 {graphToDisplay === 2 && (
-                    <Box style={{padding: '20px'}}>
-                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
+                    <Box style={{
+                        padding: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',  
+                        alignItems: 'center'
+                    }}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
+                            Check out these cool sizes!
+                        </Typography>
+                    </Box>
+                )}
+                {graphToDisplay === 3 && (
+                    <Box style={{
+                        padding: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',  
+                        alignItems: 'center'
+                    }}>
+                        <Typography variant='p' color={'darkgreen'} style={{textAlign: 'center'}}>
                             Check out these cool scores!
                         </Typography>
+                        <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
+                            <FormControlLabel 
+                                control={<Checkbox checked={hotness} onChange={() => setHotness(!hotness)}/>}
+                                label="Hotness"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={supply} onChange={() => setSupply(!supply)}/>}
+                                label="Supply"
+                                labelPlacement='start'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox checked={demand} onChange={() => setDemand(!demand)}/>}
+                                label="Demand"
+                                labelPlacement='start'
+                            />
+                        </ButtonGroup>
                     </Box>
                 )}
                 <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
