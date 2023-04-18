@@ -102,10 +102,27 @@ const search_counties = async function(req, res) {
   });
 }
 
+// Route 5: GET /county_name/:id
+const county_name = async function(req, res) {
+  const countyId = req.params.id;
+  connection.query(`
+    SELECT name
+    FROM County
+    WHERE id = ${countyId}
+  `, (err, data) => {
+    if (err || data.length == 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.send(data[0].name); 
+    }
+  });
+}
 
 module.exports = {
   author,
   county_listing_prices,
   county_metrics,
   search_counties,
+  county_name
 }

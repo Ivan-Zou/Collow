@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Tabs, Tab, Typography, Modal } from '@mui/material';
 import { ResponsiveContainer, Line, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 import { NavLink } from 'react-router-dom';
+import { formatCountyName } from '../helpers/formatter';
 
 const config = require('../config.json');
 
 export default function CountyCard({countyId, handleClose}) {
-    // State to keep track of county data from all dates
+    // State to keep track of county name
+    const [name, setName] = useState('');
+    // State to keep track of county metrics from all dates
     const [countyMetrics, setCountyMetrics] = useState(null);
     // State to keep track of whether to display median price
     const [medPrice, setMedPrice] = useState(false);
@@ -33,6 +36,11 @@ export default function CountyCard({countyId, handleClose}) {
             .then(res => res.json())
             .then(resJson => {
                 setCountyMetrics(resJson);
+                fetch(`http://${config.server_host}:${config.server_port}/county_name/${countyId}`)
+                .then(res => res.text())
+                .then(resText => {
+                    setName(formatCountyName(resText));
+                })
             })
     }, []);
 
@@ -60,7 +68,7 @@ export default function CountyCard({countyId, handleClose}) {
                 }}
             >   
                 <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
-                    County Name (Styled :D)
+                    {name}
                 </Typography>
                 <Tabs value={graphToDisplay} onChange={handleTabChange}>
                     <Tab label="Prices"/>

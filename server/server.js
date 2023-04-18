@@ -14,6 +14,7 @@ app.get('/author', routes.author);
 app.get('/county_listing_prices', routes.county_listing_prices);
 app.get('/county_metrics/:id', routes.county_metrics);
 app.get('/search_counties', routes.search_counties);
+app.get('/county_name/:id', routes.county_name);
 
 app.listen(config.server_port, () => {
   console.log(`Server running at http://${config.server_host}:${config.server_port}/`)
