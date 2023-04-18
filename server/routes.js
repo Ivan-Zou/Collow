@@ -48,8 +48,9 @@ const county_listing_prices = async function(req, res) {
 const county_metrics = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
-  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average, LP.median, LC.active, LC.total, 
-  SF.median_listing_price_per_square_foot, SF.median_square_feet
+  SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average AS Average, 
+  LP.median AS Median, LC.active AS Active, LC.total AS Total, SF.median_listing_price_per_square_foot AS Square_Price, 
+  SF.median_square_feet AS Square_Feet
   FROM Listing_Price LP JOIN
        Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
       Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
@@ -119,10 +120,29 @@ const county_name = async function(req, res) {
   });
 }
 
+// Route 6: GET /count_scores/:id
+const county_scores = async function(req, res) {
+  const countyId = req.params.id;
+  connection.query(`
+    SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, H.hotness AS Hotness, 
+    SD.supply AS Supply, SD.demand AS Demand
+    FROM Hotness H JOIN Supply_and_Demand SD ON H.id = SD.id AND H.date = SD.date
+    WHERE H.id = ${countyId}
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 module.exports = {
   author,
   county_listing_prices,
   county_metrics,
   search_counties,
-  county_name
+  county_name,
+  county_scores
 }
