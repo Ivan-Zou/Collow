@@ -67,31 +67,17 @@ export default function HomePage() {
       headerName: "Date",
     },
     {
-      field: 'average',
-      headerName: 'Average Listing Price',
-      renderCell: (row) => formatUnitPrice(row.average)
+      field: 'Hotness',
+      headerName: 'Hotness',
     },
     {
-      field: 'median',
-      headerName: 'Median Listing Price',
-      renderCell: (row) => formatUnitPrice(row.median)
+      field: 'Supply',
+      headerName: 'Supply',
     },
     {
-      field: 'active',
-      headerName: 'Active Listings'
+      field: 'Demand',
+      headerName: 'Demand'
     },
-    {
-      field: 'total',
-      headerName: 'Total Listings'
-    },
-    {
-      field: 'median_listing_price_per_square_foot',
-      headerName: 'Median Listing Price Per Sq. Ft.'
-    },
-    {
-      field: 'median_square_feet',
-      headerName: 'Median Sq. Ft.'
-    }
   ];
 
 
@@ -127,8 +113,8 @@ export default function HomePage() {
       <h2>Latest County Listing Prices</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
-      <h2>Testing County Metrics</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_metrics/1001`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
+      <h2>Testing County Scores</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_scores/1001`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <p>{appAuthor}</p>
     </Container>

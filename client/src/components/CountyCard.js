@@ -11,6 +11,8 @@ export default function CountyCard({countyId, handleClose}) {
     const [name, setName] = useState('');
     // State to keep track of county metrics from all dates
     const [countyMetrics, setCountyMetrics] = useState(null);
+    // State to keep track of county scores from all dates
+    const [countyScores, setCountyScores] = useState(null);
     // State to keep track of whether to display median price
     const [medPrice, setMedPrice] = useState(false);
     // State to keep track of whether to display average price
@@ -40,6 +42,11 @@ export default function CountyCard({countyId, handleClose}) {
                 .then(res => res.text())
                 .then(resText => {
                     setName(formatCountyName(resText));
+                    fetch(`http://${config.server_host}:${config.server_port}/county_scores/${countyId}`)
+                    .then(res => res.json())
+                    .then(resJson2 => {
+                        setCountyScores(resJson2);
+                    })
                 })
             })
     }, []);
@@ -199,11 +206,14 @@ export default function CountyCard({countyId, handleClose}) {
                             />
                         </ButtonGroup>
                         <ResponsiveContainer height={250}>
-                            <LineChart data={countyMetrics} style={{width: '1100px'}}>
+                            <LineChart data={countyScores} style={{width: '1100px'}}>
                                 <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
                                 <YAxis></YAxis>
                                 <Legend></Legend>
                                 <Tooltip></Tooltip>
+                                {hotness && <Line dataKey="Hotness" stroke="red" activeDot={{ r: 8 }}/>}
+                                {supply && <Line dataKey="Supply" stroke="lightgreen" activeDot={{ r: 8 }}/>}
+                                {demand && <Line dataKey="Demand" stroke="darkgreen" activeDot={{ r: 8 }}/>}
                             </LineChart>
                         </ResponsiveContainer>
                     </Box>

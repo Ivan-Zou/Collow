@@ -124,7 +124,7 @@ const county_name = async function(req, res) {
 const county_scores = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
-    SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, H.hotness AS Hotness, 
+    SELECT CONCAT(FLOOR(H.date % 100), '/', FLOOR(H.date / 100)) as date, H.hotness AS Hotness, 
     SD.supply AS Supply, SD.demand AS Demand
     FROM Hotness H JOIN Supply_and_Demand SD ON H.id = SD.id AND H.date = SD.date
     WHERE H.id = ${countyId}
