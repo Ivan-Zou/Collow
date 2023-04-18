@@ -18,7 +18,7 @@ connection.connect((err) => err && console.log(err));
 
 // Route 1: GET /author
 const author = async function(req, res) {
-  const name = 'Angeline, Brady, Ivan, and Sid';
+  const name = 'Angeline, Brady, Ivan, and Siddharth';
   res.send(`Created by ${name}`);
 }
 
