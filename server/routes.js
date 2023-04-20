@@ -161,20 +161,6 @@ const listing_change = async function(req, res) {
   });
 }
 
-// Route 8: PUT /favorite/
-const favorite = async function(req, res) {
-  const favorite = req.query.fav;
-  connection.query(`
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
-}
-
 module.exports = {
   author,
   county_listing_prices,
