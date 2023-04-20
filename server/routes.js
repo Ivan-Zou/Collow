@@ -138,11 +138,49 @@ const county_scores = async function(req, res) {
   });
 }
 
+// Route 7: GET /listing_change/
+const listing_change = async function(req, res) {
+  const d1 = req.query.d1;
+  const d2 = req.query.d2;
+  connection.query(`
+    SELECT id, ABS(LC_D1.active - LC_D2.active) as change
+    FROM (SELECT id, active
+      FROM Listing_Count LC
+      WHERE LC.date = ${d1}) LC_D1 JOIN
+    (SELECT id, active
+      FROM Listing_Count LC
+      WHERE LC.date = ${d2}) LC_D2 ON LC_D1.id, LC_D1.date = LC_D2.id, LC_D2.date
+    ORDER BY change DESC
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+// Route 8: PUT /favorite/
+const favorite = async function(req, res) {
+  const favorite = req.query.fav;
+  connection.query(`
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 module.exports = {
   author,
   county_listing_prices,
   county_metrics,
   search_counties,
   county_name,
-  county_scores
+  county_scores,
+  listing_change
 }
