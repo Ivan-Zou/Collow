@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, Container, InputLabel, FormControl, FormControlLabel, Grid, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
+import { Button, Container, InputLabel, FormControl, Grid, Link, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import CountyCard from '../components/CountyCard';
 
@@ -89,6 +89,9 @@ export default function CountiesPage() {
             field: 'name', 
             headerName: 'Name', 
             width: 200, 
+            renderCell: (params) => (
+                <Link onClick={() => setSelectedCounty(params.row.id)}>{params.row.name}</Link>
+            )
         },
         { 
             field: 'average', 
@@ -248,11 +251,6 @@ export default function CountiesPage() {
             <Button onClick={() => search() } style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
                 Search
             </Button>
-            <Grid>
-                <Button onClick={() =>  setSelectedCounty(1001)} style={{ left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-                    Test County Card
-                </Button>
-            </Grid>
             {/*Table with all the data*/}
             <Typography variant='h4' color={'darkgreen'} style={{marginBottom: '20px', textAlign: 'center'}}>
                 Results
