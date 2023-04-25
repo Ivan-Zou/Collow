@@ -4,6 +4,7 @@ import { lightGreen } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
 
 import NavBar from './components/NavBar';
+import SideBar from './components/SideBar';
 import HomePage from './pages/HomePage';
 import AlbumsPage from './pages/AlbumsPage';
 import SongsPage from './pages/SongsPage';
@@ -28,7 +29,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <NavBar />
+        <SideBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/albums" element={<AlbumsPage />} />
