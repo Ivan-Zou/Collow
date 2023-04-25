@@ -161,6 +161,25 @@ const listing_change = async function(req, res) {
   });
 }
 
+// Route 8: GET /counties_starting_with/:letter
+const counties_starting_with = async function(req, res) {
+  // If letter is null, return all counties. Else, return all counties that start with letter
+  const letter = req.params.letter != 'all' ? req.params.letter : '';
+  connection.query(`
+    SELECT id, name
+    FROM County 
+    WHERE name LIKE '${letter}%'
+    ORDER BY name 
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  })
+}
+
 module.exports = {
   author,
   county_listing_prices,
@@ -168,5 +187,6 @@ module.exports = {
   search_counties,
   county_name,
   county_scores,
-  listing_change
+  listing_change,
+  counties_starting_with
 }

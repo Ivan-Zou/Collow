@@ -43,6 +43,9 @@ const menuList = (
             <ListItem key="songs" disablePadding>
               <NavText href='/songs' text='Songs' />  
             </ListItem>
+            <ListItem key="county_directory" disablePadding>
+              <NavText href='/county_directory' text = 'County Directory'/>
+            </ListItem>
             <ListItem key="search_counties" disablePadding>
               <NavText href='/search_counties' text = 'Search Counties'/>
             </ListItem>

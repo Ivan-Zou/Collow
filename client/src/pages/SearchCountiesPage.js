@@ -7,7 +7,6 @@ import { formatUnitNumber, formatUnitPrice, formatPriceByThousand, formatCountyN
 const config = require('../config.json');
 
 export default function CountiesPage() {
-    // Have a query find the earliest date and the highest date for bounds on the date (Hardcoded for now)
     const earliest = 201708;
     const latest = 202302;
     // Array with all the years between earliest and latest
