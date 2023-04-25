@@ -10,9 +10,11 @@ const NavText = ({ href, text}) => {
     <Typography
       variant='h5'
       style={{
-        marginRight: '35px',
+        padding: '5px',
+        marginRight: '30px',
+        marginBottom: '10px',
         fontFamily: 'sans-serif',
-        fontWeight: 700,
+        fontWeight: 525,
         letterSpacing: '.15rem',
       }}
     >
@@ -32,7 +34,7 @@ const NavText = ({ href, text}) => {
 const menuList = (
       <Box
         sx={250}
-        role="presentation"        
+        role="presentation"     
       >
         <List>
             <ListItem key="home" disablePadding>
@@ -53,7 +55,6 @@ const menuList = (
 // props to how it changes the look of the component.
 export default function NavBar() {
   const [openMenu, setOpenMenu] = useState(false);
-  
   return (
     <AppBar position='static'>
       <Container maxWidth="xl">
@@ -75,6 +76,11 @@ export default function NavBar() {
           <Drawer
             open={openMenu}
             onClose={() => setOpenMenu(false)}
+            PaperProps={{
+              sx: {
+                backgroundColor: '#8BC24A'
+              }
+            }}
           >
             {menuList}
           </Drawer>
