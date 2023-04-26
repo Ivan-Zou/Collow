@@ -6,7 +6,6 @@ import { createTheme } from "@mui/material/styles";
 
 import SideBar from './components/SideBar';
 import HomePage from './pages/HomePage';
-import SongsPage from './pages/SongsPage';
 import SearchCountiesPage from "./pages/SearchCountiesPage";
 import CountyDirectoryPage from "./pages/CountyDirectoryPage";
 
@@ -32,7 +31,6 @@ export default function App() {
         <SideBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/songs" element={<SongsPage />} />
           <Route path="/search_counties" element={<SearchCountiesPage />} />
           <Route path="/county_directory" element={<CountyDirectoryPage />} />
         </Routes>

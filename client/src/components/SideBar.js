@@ -40,9 +40,6 @@ const menuList = (
             <ListItem key="home" disablePadding>
               <NavText href='/' text='Home' />
             </ListItem>
-            <ListItem key="songs" disablePadding>
-              <NavText href='/songs' text='Songs' />  
-            </ListItem>
             <ListItem key="county_directory" disablePadding>
               <NavText href='/county_directory' text = 'County Directory'/>
             </ListItem>
