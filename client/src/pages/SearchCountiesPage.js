@@ -6,7 +6,7 @@ import CountyCard from '../components/CountyCard';
 import { formatUnitNumber, formatUnitPrice, formatPriceByThousand, formatCountyName} from '../helpers/formatter';
 const config = require('../config.json');
 
-export default function CountiesPage() {
+export default function CountiesPage({favorites, setFavorites}) {
     const earliest = 201708;
     const latest = 202302;
     // Array with all the years between earliest and latest

@@ -6,7 +6,7 @@ import {formatCountyName} from '../helpers/formatter';
 
 const config = require('../config.json');
 
-export default function CountyDirectoryPage() {
+export default function CountyDirectoryPage({favorites, setFavorites}) {
     // State to keep track of the current counties being displayed 
     const [data, setData] = useState([]);
     // State to keep track of the current letter selected by user

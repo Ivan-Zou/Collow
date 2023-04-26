@@ -1,14 +1,12 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { lightGreen } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
 
-import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 import HomePage from './pages/HomePage';
-import AlbumsPage from './pages/AlbumsPage';
 import SongsPage from './pages/SongsPage';
-import AlbumInfoPage from './pages/AlbumInfoPage'
 import SearchCountiesPage from "./pages/SearchCountiesPage";
 import CountyDirectoryPage from "./pages/CountyDirectoryPage";
 
@@ -26,6 +24,7 @@ export const theme = createTheme({
 // our application, with each Route component representing a page and the common
 // NavBar component allowing us to navigate between pages (with hyperlinks)
 export default function App() {
+  const [favorites, setFavorites] = useState([]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

@@ -6,7 +6,7 @@ import { formatCountyName } from '../helpers/formatter';
 
 const config = require('../config.json');
 
-export default function CountyCard({countyId, handleClose}) {
+export default function CountyCard({countyId, handleClose, favorites, setFavorites}) {
     // State to keep track of county name
     const [name, setName] = useState('');
     // State to keep track of county metrics from all dates
