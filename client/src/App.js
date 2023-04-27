@@ -8,6 +8,7 @@ import SideBar from './components/SideBar';
 import HomePage from './pages/HomePage';
 import SearchCountiesPage from "./pages/SearchCountiesPage";
 import CountyDirectoryPage from "./pages/CountyDirectoryPage";
+import CompareFavoritesPage from './pages/CompareFavoritesPage';
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search_counties" element={<SearchCountiesPage favorites={favorites} setFavorites={setFavorites}/>} />
           <Route path="/county_directory" element={<CountyDirectoryPage favorites={favorites} setFavorites={setFavorites}/>} />
+          <Route path="/compare_favorites" element={<CompareFavoritesPage favorites={favorites} setFavorites={setFavorites}/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

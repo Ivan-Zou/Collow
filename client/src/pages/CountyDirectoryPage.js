@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Container, Link, Typography, Divider } from '@mui/material';
+import { Button, Container, Link, Typography} from '@mui/material';
 import CountyCard from '../components/CountyCard';
 import { DataGrid } from '@mui/x-data-grid';
 import {formatCountyName} from '../helpers/formatter';
