@@ -31,8 +31,8 @@ export default function App() {
         <SideBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/search_counties" element={<SearchCountiesPage />} />
-          <Route path="/county_directory" element={<CountyDirectoryPage />} />
+          <Route path="/search_counties" element={<SearchCountiesPage favorites={favorites} setFavorites={setFavorites}/>} />
+          <Route path="/county_directory" element={<CountyDirectoryPage favorites={favorites} setFavorites={setFavorites}/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

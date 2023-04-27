@@ -61,7 +61,7 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
     return (
         <Container>
             {/*Render the CountyCard if a county has been selected */}
-            {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} />}
+            {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} favorites={favorites} setFavorites={setFavorites}/>}
             {/*Header for the page*/}
             <Typography variant='h3' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                 County Directory

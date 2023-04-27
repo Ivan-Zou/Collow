@@ -32,6 +32,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     // State to keep track of whether to display median price per square foot
     const [pricePerSquareFoot, setPricePerSquareFoot] = useState(false);
     const [graphToDisplay, setGraphToDisplay] = useState(1);
+    const [inFavorites, setInFavorites] = useState(favorites.includes(countyId));
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
@@ -54,6 +55,16 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     const handleTabChange = (event, newTabIndex) => {
         setGraphToDisplay(newTabIndex);
     };
+
+    const updateFavorites = () => {
+        if (inFavorites) {
+            setInFavorites(false);
+            setFavorites(favorites.filter(id => id != countyId));
+        } else {
+            setInFavorites(true);
+            setFavorites([...favorites, countyId]);
+        }
+    }
 
     return (
         <Modal
@@ -218,6 +229,9 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ResponsiveContainer>
                     </Box>
                 )}
+                <Button onClick={() => updateFavorites()} style={{ left: '50%', transform: 'translateX(-50%)' }}>
+                    {inFavorites ? "Delete From Favorites" : "Add To Favorites"}
+                </Button>
                 <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
                     Close
                 </Button>
