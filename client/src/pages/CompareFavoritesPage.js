@@ -23,6 +23,15 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
     // State to keep track of which county card to display
     const [selectedCounty, setSelectedCounty] = useState(null);
 
+    useEffect(() => {
+        const favoriteIds = "(" + favorites.map((id) => `${id}`).join(',') + ")";
+        fetch(`http://${config.server_host}:${config.server_port}/county_metrics_by_date/${favoriteIds}/${parseInt(year + month)}`)
+        .then(res => res.json())
+        .then(resJson => {
+            setData(resJson);
+        });
+    }, [favorites])
+
     return (
         <Container>
             {favorites.length == 0 ? 
@@ -34,7 +43,8 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                         <Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
                         Select the counties you want to compare.
                         </Typography>
-                        {data.length == 0 ? <h1>What the freak?</h1> : <h1>Oh naur</h1>}
+                        <h1>{data.length}</h1>
+                        <h1>{"(" + favorites.map((id) => `${id}`).join(',') + ")"}</h1>
                     </Box>
                 )
             }
