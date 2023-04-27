@@ -215,5 +215,6 @@ module.exports = {
   county_name,
   county_scores,
   listing_change,
-  counties_starting_with
+  counties_starting_with,
+  county_metrics_by_date
 }
