@@ -35,10 +35,6 @@ export default function HomePage() {
 
   const countyColumns = [
     {
-      field: 'date',
-      headerName: "Date",
-    },
-    {
       field: 'name',
       headerName: 'County',
       renderCell: (row) => formatCountyName(row.name)
@@ -77,8 +73,8 @@ export default function HomePage() {
   return (
     <Container>
       <Divider />
-      <h2>Latest County Listing Prices</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_listing_prices`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
+      <h2>Latest Listing Prices</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/latest_county_info`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <h2>Testing County Scores</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/county_scores/1001`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />

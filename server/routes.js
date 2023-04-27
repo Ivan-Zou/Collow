@@ -22,17 +22,21 @@ const author = async function(req, res) {
   res.send(`Created by ${name}`);
 }
 
-// Route 2: GET /county_listing_prices
-const county_listing_prices = async function(req, res) {
+// Route 2: GET /latest_county_info
+const latest_county_info = async function(req, res) {
   const page = req.query.page;
   const pageSize = req.query.page_size ?? 10;
   const offset = pageSize * (page - 1);
 
   connection.query(`
-    SELECT C.id, CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, C.name, LP.median, LP.average
+    SELECT *
     FROM County C JOIN Listing_Price LP ON C.id = LP.id
+                  JOIN Square_Footage SF ON C.id = SF.id AND LP.date = SF.date
+                  JOIN Listing_Count LC ON C.id = LC.id AND LP.date = LC.date
+                  JOIN Hotness H ON C.id = H.id AND LP.date = H.date
+                  JOIN Supply_and_Demand SaD ON C.id = SaD.id AND LP.date = SaD.date
     WHERE LP.date = 202302
-    ORDER BY LP.median
+    ORDER BY C.name
     LIMIT ${pageSize} OFFSET ${offset}
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -205,12 +209,11 @@ const county_metrics_by_date = async function(req, res) {
 
 module.exports = {
   author,
-  county_listing_prices,
+  latest_county_info,
   county_metrics,
   search_counties,
   county_name,
   county_scores,
   listing_change,
-  counties_starting_with,
-  county_metrics_by_date
+  counties_starting_with
 }
