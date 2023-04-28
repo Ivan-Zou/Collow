@@ -118,6 +118,24 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                                     )}
                                 </Select>
                             </FormControl>
+                            
+                        </Grid>
+                        <Grid item xs={6}>
+                            <FormControl variant="filled" sx={{minWidth: 120}}>
+                                <InputLabel>Attribute</InputLabel>
+                                    <Select
+                                        onChange={(e) => setMonth(e.target.value)}
+                                        label="Attribute"
+                                        defaultValue={"Average_Price"}   
+                                    >
+                                        <MenuItem value={"Average_Price"}>Average Price</MenuItem>
+                                        <MenuItem value={"Median_Price"}>Median Price</MenuItem>
+                                        <MenuItem value={"Active_Listings"}>Active Listings</MenuItem>
+                                        <MenuItem value={"Total_Listings"}>Total Listings</MenuItem>
+                                        <MenuItem value={"Median_Price_Per_Square_Foot"}>Median Price Per Square Foot</MenuItem>
+                                        <MenuItem value={"Median_Square_Feet"}>Median Square Feet</MenuItem>
+                                    </Select>
+                                </FormControl>
                         </Grid>
                     </Grid>
                     {data.map((county) => 
