@@ -18,6 +18,9 @@ app.get('/county_name/:id', routes.county_name);
 app.get('/county_scores/:id', routes.county_scores);
 app.get(`/counties_starting_with/:letter`, routes.counties_starting_with);
 app.get(`/county_metrics_by_date/:list/:date`, routes.county_metrics_by_date);
+app.get(`/average_county_info`, routes.average_county_info);
+app.get(`/maximum_county_info`, routes.maximum_county_info);
+app.get(`/minimum_county_info`, routes.minimum_county_info)
 
 app.listen(config.server_port, () => {
   console.log(`Server running at http://${config.server_host}:${config.server_port}/`)
