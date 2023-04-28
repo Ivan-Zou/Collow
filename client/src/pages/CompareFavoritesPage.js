@@ -20,6 +20,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
     const[data, setData] = useState([]);
     // State to keep track of the counties that the user wants to compare
     const [counties, setCounties] = useState([]);
+    const [attribute, setAttribute] = useState("Average_Price");
 
     useEffect(() => {
         const favoriteIds = "(" + favorites.map((id) => `${id}`).join(',') + ")";
@@ -30,10 +31,10 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                 { 
                     id: county.id, 
                     Name: formatCountyName(county.Name), 
-                    Average: county.Average,
-                    Median: county.Median,
-                    Active: county.Active,
-                    Total: county.Total,
+                    Average_Price: county.Average,
+                    Median_Price: county.Median,
+                    Active_Listings: county.Active,
+                    Total_Listings: county.Total,
                     Median_Price_Per_Square_Foot: county.Square_Price,
                     Median_Square_Feet: county.Square_Feet 
                 }));
@@ -58,12 +59,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                     <YAxis></YAxis>
                     <Legend></Legend>
                     <Tooltip></Tooltip>
-                    <Bar dataKey="Average" fill='#82CA9D' maxBarSize={25}/>
-                    <Bar dataKey="Median" fill='#8884D8' maxBarSize={25}/>
-                    <Bar dataKey="Active" fill='#8884D8' maxBarSize={25}/>
-                    <Bar dataKey="Total" fill='##4488B9' maxBarSize={25}/>
-                    <Bar dataKey="Median_Price_Per_Square_Foot" fill='#44FFB9' maxBarSize={25}/>
-                    <Bar dataKey="Median_Square_Feet" fill='#8884D8' maxBarSize={25}/>
+                    <Bar dataKey={attribute} fill='#82CA9D' maxBarSize={25}/>
                 </BarChart>
             </ResponsiveContainer>
         )
@@ -124,7 +120,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                             <FormControl variant="filled" sx={{minWidth: 120}}>
                                 <InputLabel>Attribute</InputLabel>
                                     <Select
-                                        onChange={(e) => setMonth(e.target.value)}
+                                        onChange={(e) => setAttribute(e.target.value)}
                                         label="Attribute"
                                         defaultValue={"Average_Price"}   
                                     >
