@@ -13,7 +13,7 @@ export default function LazyTable({ route, columns, defaultPageSize, rowsPerPage
   const [data, setData] = useState([]);
 
   const [page, setPage] = useState(1); // 1 indexed
-  const [pageSize, setPageSize] = useState(defaultPageSize ?? 10);
+  const [pageSize, setPageSize] = useState(defaultPageSize ?? 5);
 
   // Now notice the dependency array contains route, page, pageSize, since we
   // need to re-fetch the data if any of these values change
