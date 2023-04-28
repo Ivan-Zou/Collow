@@ -85,10 +85,10 @@ const search_counties = async function(req, res) {
   const month = req.query.month ?? "02";
   connection.query(`
     SELECT *
-    FROM County C LEFT JOIN Listing_Price LP ON C.id = LP.id 
-      LEFT JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date
-      LEFT JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
-      LEFT JOIN Supply_and_Demand SD ON SF.id = SD.id AND SF.date = SD.date
+    FROM County C JOIN Listing_Price LP ON C.id = LP.id 
+      JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date
+      JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+      JOIN Supply_and_Demand SD ON SF.id = SD.id AND SF.date = SD.date
       WHERE (name LIKE '%${name}%')
         AND (average >= ${averagePriceLow} AND average <= ${averagePriceHigh})
         AND (supply >= ${supplyScoreLow} AND supply <= ${supplyScoreHigh})
