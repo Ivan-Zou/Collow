@@ -25,16 +25,16 @@ const author = async function(req, res) {
 // Route 2: GET /latest_county_info
 const latest_county_info = async function(req, res) {
   const page = req.query.page;
-  const pageSize = req.query.page_size ?? 10;
+  const pageSize = req.query.page_size ?? 5;
   const offset = pageSize * (page - 1);
 
   connection.query(`
     SELECT *
-    FROM County C JOIN Listing_Price LP ON C.id = LP.id
-                  JOIN Square_Footage SF ON C.id = SF.id AND LP.date = SF.date
-                  JOIN Listing_Count LC ON C.id = LC.id AND LP.date = LC.date
-                  JOIN Hotness H ON C.id = H.id AND LP.date = H.date
-                  JOIN Supply_and_Demand SaD ON C.id = SaD.id AND LP.date = SaD.date
+    FROM County C LEFT JOIN Listing_Price LP ON C.id = LP.id
+                  LEFT JOIN Square_Footage SF ON C.id = SF.id AND LP.date = SF.date
+                  LEFT JOIN Listing_Count LC ON C.id = LC.id AND LP.date = LC.date
+                  LEFT JOIN Hotness H ON C.id = H.id AND LP.date = H.date
+                  LEFT JOIN Supply_and_Demand SaD ON C.id = SaD.id AND LP.date = SaD.date
     WHERE LP.date = 202302
     ORDER BY C.name
     LIMIT ${pageSize} OFFSET ${offset}
@@ -55,9 +55,8 @@ const county_metrics = async function(req, res) {
   SELECT CONCAT(FLOOR(LP.date % 100), '/', FLOOR(LP.date / 100)) as date, LP.average AS Average, 
   LP.median AS Median, LC.active AS Active, LC.total AS Total, SF.median_listing_price_per_square_foot AS Square_Price, 
   SF.median_square_feet AS Square_Feet
-  FROM Listing_Price LP JOIN
-       Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
-      Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+  FROM Listing_Price LP JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date 
+      JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
   WHERE LP.id = ${countyId}
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -86,10 +85,10 @@ const search_counties = async function(req, res) {
   const month = req.query.month ?? "02";
   connection.query(`
     SELECT *
-    FROM County C JOIN Listing_Price LP ON C.id = LP.id 
-      JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date
-      JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
-      JOIN Supply_and_Demand SD ON SF.id = SD.id AND SF.date = SD.date
+    FROM County C LEFT JOIN Listing_Price LP ON C.id = LP.id 
+      LEFT JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date
+      LEFT JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+      LEFT JOIN Supply_and_Demand SD ON SF.id = SD.id AND SF.date = SD.date
       WHERE (name LIKE '%${name}%')
         AND (average >= ${averagePriceLow} AND average <= ${averagePriceHigh})
         AND (supply >= ${supplyScoreLow} AND supply <= ${supplyScoreHigh})
@@ -175,8 +174,8 @@ const county_metrics_by_date = async function(req, res) {
   LP.median AS Median, LC.active AS Active, LC.total AS Total, SF.median_listing_price_per_square_foot AS Square_Price, 
   SF.median_square_feet AS Square_Feet
   FROM County C JOIN Listing_Price LP ON C.id = LP.id
-       JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date JOIN
-       Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
+       JOIN Listing_Count LC ON LP.id = LC.id AND LP.date = LC.date 
+       JOIN Square_Footage SF ON LC.id = SF.id AND LC.date = SF.date
   WHERE LP.id IN ${ids} AND LP.date = ${date}
   `, (err, data) => {
     if (err || data.length === 0) {
