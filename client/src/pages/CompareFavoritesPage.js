@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, Container, Checkbox, Link, FormControlLabel, Typography, Divider } from '@mui/material';
-import CountyCard from '../components/CountyCard';
-import { formatUnitNumber, formatUnitPrice, formatPriceByThousand, formatCountyName} from '../helpers/formatter';
+import { Box, Button, Container, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { formatUnitNumber, formatUnitPrice, formatCountyName} from '../helpers/formatter';
+import {Bar, BarChart, Line, LineChart, Legend,  ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 const config = require('../config.json');
 
 export default function CompareFavoritesPage({favorites, setFavorites}) {
@@ -20,34 +20,126 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
     const[data, setData] = useState([]);
     // State to keep track of the counties that the user wants to compare
     const [counties, setCounties] = useState([]);
-    // State to keep track of which county card to display
-    const [selectedCounty, setSelectedCounty] = useState(null);
 
     useEffect(() => {
         const favoriteIds = "(" + favorites.map((id) => `${id}`).join(',') + ")";
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics_by_date/${favoriteIds}/${parseInt(year + month)}`)
         .then(res => res.json())
         .then(resJson => {
-            setData(resJson);
+            const newData = resJson.map((county) => (
+                { 
+                    id: county.id, 
+                    Name: formatCountyName(county.Name), 
+                    Average: county.Average,
+                    Median: county.Median,
+                    Active: county.Active,
+                    Total: county.Total,
+                    Median_Price_Per_Square_Foot: county.Square_Price,
+                    Median_Square_Feet: county.Square_Feet 
+                }));
+            setData(newData);
         });
-    }, [favorites])
+    }, [favorites, month, year])
+
+    const updateCountiesToCompare = (id) => {
+        if (counties.includes(id)) {
+            setCounties(counties.filter((countyId) => countyId != id));
+        } else {
+            setCounties([...counties, id]);
+        }
+    }
+    
+    const getChart = (chartData) => {
+        console.log(chartData);
+        return (
+            <ResponsiveContainer height={500}>
+                <BarChart data={chartData} style={{width: '1200px'}}>
+                    <XAxis dataKey="Name"></XAxis>
+                    <YAxis></YAxis>
+                    <Legend></Legend>
+                    <Tooltip></Tooltip>
+                    <Bar dataKey="Average" fill='#82CA9D' maxBarSize={25}/>
+                    <Bar dataKey="Median" fill='#8884D8' maxBarSize={25}/>
+                    <Bar dataKey="Active" fill='#8884D8' maxBarSize={25}/>
+                    <Bar dataKey="Total" fill='##4488B9' maxBarSize={25}/>
+                    <Bar dataKey="Median_Price_Per_Square_Foot" fill='#44FFB9' maxBarSize={25}/>
+                    <Bar dataKey="Median_Square_Feet" fill='#8884D8' maxBarSize={25}/>
+                </BarChart>
+            </ResponsiveContainer>
+        )
+    }
 
     return (
         <Container>
-            {favorites.length == 0 ? 
-               (<Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
-                    You don't have any favorites! Come back when you have some.
-                </Typography>) :
-                (
-                    <Box>
-                        <Typography variant='h4' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
-                        Select the counties you want to compare.
-                        </Typography>
-                        <h1>{data.length}</h1>
-                        <h1>{"(" + favorites.map((id) => `${id}`).join(',') + ")"}</h1>
-                    </Box>
-                )
-            }
+            {favorites.length <= 1 ? 
+                (<Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
+                    You don't have enough favorites!
+                 </Typography>) :
+                 (<Box>
+                    <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={"center"} style={{marginBottom: '40px'}}>
+                        <Grid item xs={6}>
+                                <Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
+                                    Select at least 2 counties to compare!
+                                </Typography>
+                        </Grid>
+                        {/*Drop down boxes to select the month and year for our data*/}
+                        <Grid item xs={6}>
+                            <FormControl variant="filled" sx={{minWidth: 120}}>
+                                <InputLabel>Month</InputLabel>
+                                    <Select
+                                        onChange={(e) => setMonth(e.target.value)}
+                                        label="Month"
+                                        defaultValue={"02"}   
+                                    >
+                                        <MenuItem value={"01"}>Jan</MenuItem>
+                                        <MenuItem value={"02"}>Feb</MenuItem>
+                                        <MenuItem value={"03"}>Mar</MenuItem>
+                                        <MenuItem value={"04"}>Apr</MenuItem>
+                                        <MenuItem value={"05"}>May</MenuItem>
+                                        <MenuItem value={"06"}>Jun</MenuItem>
+                                        <MenuItem value={"07"}>Jul</MenuItem>
+                                        <MenuItem value={"08"}>Aug</MenuItem>
+                                        <MenuItem value={"09"}>Sep</MenuItem>
+                                        <MenuItem value={"10"}>Oct</MenuItem>
+                                        <MenuItem value={"11"}>Nov</MenuItem>
+                                        <MenuItem value={"12"}>Dec</MenuItem>
+                                        
+                                    </Select>
+                                </FormControl>
+                            <FormControl variant="filled" sx={{minWidth: 120}}>
+                                <InputLabel>Year</InputLabel>
+                                <Select
+                                    onChange={(e) => setYear(e.target.value)}
+                                    label="Year"    
+                                    defaultValue={2023}
+                                >
+                                    {years.map(
+                                        (x) => <MenuItem value={x}>{x}</MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                    {data.map((county) => 
+                        <FormControlLabel
+                            control={<Checkbox 
+                                        checked={counties.includes(county.id)} 
+                                        onChange={() => updateCountiesToCompare(county.id)}>
+                                     </Checkbox>}
+                            label={county.Name}
+                            labelPlacement='start'
+                        />
+                    )}
+                    {counties.length >= 2 && getChart(data.filter((county) => counties.includes(county.id)))}
+                  </Box>
+                 )}
         </Container>
     )
+    
+    /*
+                <Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
+                            Select at least 2 counties to compare!
+                        </Typography>
+              
+    */
 }

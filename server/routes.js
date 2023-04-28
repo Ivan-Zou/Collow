@@ -184,12 +184,12 @@ const counties_starting_with = async function(req, res) {
   })
 }
 
-// Route 10: GET /county_metrics_by_date/:list/:date
+// Route 9: GET /county_metrics_by_date/:list/:date
 const county_metrics_by_date = async function(req, res) {
   const ids = req.params.list;
   const date = req.params.date;
   connection.query(`
-  SELECT C.name, LP.average AS Average, 
+  SELECT C.id, C.name AS Name, LP.average AS Average, 
   LP.median AS Median, LC.active AS Active, LC.total AS Total, SF.median_listing_price_per_square_foot AS Square_Price, 
   SF.median_square_feet AS Square_Feet
   FROM County C JOIN Listing_Price LP ON C.id = LP.id
@@ -201,7 +201,6 @@ const county_metrics_by_date = async function(req, res) {
       console.log(err);
       res.json([]);
     } else {
-      console.log(data);
       res.json(data);
     }
   });

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Tabs, Tab, Typography, Modal } from '@mui/material';
 import { ResponsiveContainer, Line, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
-import { NavLink } from 'react-router-dom';
 import { formatCountyName } from '../helpers/formatter';
 
 const config = require('../config.json');
@@ -116,7 +115,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ButtonGroup>
                         <ResponsiveContainer height={250}>
                             <LineChart data={countyMetrics} style={{width: '1100px'}}>
-                                <XAxis dataKey="date" interval={'preserveStartEnd'}></XAxis>
+                                <XAxis dataKey="date" interval={'preserveStartEnd'}/>
                                 <YAxis></YAxis>
                                 <Legend></Legend>
                                 <Tooltip></Tooltip>
