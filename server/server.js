@@ -15,7 +15,6 @@ app.get('/latest_county_info', routes.latest_county_info);
 app.get('/county_metrics/:id', routes.county_metrics);
 app.get('/search_counties', routes.search_counties);
 app.get('/county_name/:id', routes.county_name);
-app.get('/county_scores/:id', routes.county_scores);
 app.get(`/counties_starting_with/:letter`, routes.counties_starting_with);
 app.get(`/county_metrics_by_date/:list/:date`, routes.county_metrics_by_date);
 app.get(`/average_county_info`, routes.average_county_info);

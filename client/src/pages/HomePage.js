@@ -51,33 +51,11 @@ export default function HomePage() {
     },
   ];
 
-  const testColumns = [
-    {
-      field: 'date',
-      headerName: "Date",
-    },
-    {
-      field: 'Hotness',
-      headerName: 'Hotness',
-    },
-    {
-      field: 'Supply',
-      headerName: 'Supply',
-    },
-    {
-      field: 'Demand',
-      headerName: 'Demand'
-    },
-  ];
-
   return (
     <Container>
       <Divider />
       <h2>Latest Listing Prices</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/latest_county_info`} columns={countyColumns} rowsPerPageOptions={[5, 10, 25]} />
-      <Divider />
-      <h2>Testing County Scores</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/county_scores/1001`} columns={testColumns} rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
       <p>{appAuthor}</p>
     </Container>
