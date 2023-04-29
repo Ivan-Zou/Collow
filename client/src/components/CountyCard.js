@@ -30,8 +30,13 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     const [demand, setDemand] = useState(false);
     // State to keep track of whether to display median price per square foot
     const [pricePerSquareFoot, setPricePerSquareFoot] = useState(false);
-    const [graphToDisplay, setGraphToDisplay] = useState(1);
+    const [infoToDisplay, setInfoToDisplay] = useState(1);
     const [inFavorites, setInFavorites] = useState(favorites.includes(countyId));
+    const [averageData, setAverageData] = useState([]);
+    const [maxData, setMaxData] = useState([]);
+    const [minData, setMinData] = useState([]);
+    // State to keep track of whether to display average data
+    const [allTime, setAllTime] = useState(0);
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
@@ -42,17 +47,26 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                 .then(res => res.text())
                 .then(resText => {
                     setName(formatCountyName(resText));
-                    fetch(`http://${config.server_host}:${config.server_port}/county_scores/${countyId}`)
-                    .then(res => res.json())
-                    .then(resJson2 => {
-                        setCountyScores(resJson2);
+                    fetch(`http://${config.server_host}:${config.server_port}/average_county_info/${countyId}`)
+                        .then(res => res.json()) 
+                        .then(resJson2 => {
+                            setAverageData(resJson2);
                     })
-                })
-            })
+                })  
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://${config.server_host}:${config.server_port}/county_scores/${countyId}`)
+            .then(res => res.json())
+            .then(resJson3 => {
+                setCountyScores(resJson3)
+            }
+        );
     }, []);
 
     const handleTabChange = (event, newTabIndex) => {
-        setGraphToDisplay(newTabIndex);
+        setInfoToDisplay(newTabIndex);
     };
 
     const updateFavorites = () => {
@@ -87,13 +101,14 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                 <Typography variant='h3' color={'darkgreen'} style={{textAlign: 'center', marginTop: '45px', marginBottom: '40px'}}>
                     {name}
                 </Typography>
-                <Tabs value={graphToDisplay} onChange={handleTabChange}>
+                <Tabs value={infoToDisplay} onChange={handleTabChange}>
                     <Tab label="Prices"/>
                     <Tab label="Listings"/>
                     <Tab label="Square Footage"/>
                     <Tab label="Hotness"/>
+                    <Tab label="All Time"/>
                 </Tabs>
-                {graphToDisplay === 0 && (
+                {infoToDisplay === 0 && (
                     <Box style={{
                         padding: '20px',
                         display: 'flex',
@@ -125,7 +140,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ResponsiveContainer>
                     </Box>
                 )}
-                {graphToDisplay === 1 && (
+                {infoToDisplay === 1 && (
                     <Box style={{
                         padding: '20px',
                         width: '800',
@@ -158,7 +173,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ResponsiveContainer>
                     </Box>
                 )}
-                {graphToDisplay === 2 && (
+                {infoToDisplay === 2 && (
                     <Box style={{
                         padding: '20px',
                         display: 'flex',
@@ -190,7 +205,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ResponsiveContainer>
                     </Box>
                 )}
-                {graphToDisplay === 3 && (
+                {infoToDisplay === 3 && (
                     <Box style={{
                         padding: '20px',
                         display: 'flex',
@@ -228,6 +243,24 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                         </ResponsiveContainer>
                     </Box>
                 )}
+                {infoToDisplay === 4 &&
+                    (
+                        <Box style={{
+                            padding: '20px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',  
+                            alignItems: 'center'
+                        }}>
+                            <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
+                                <Button onClick={() => setAllTime(0)}>Average</Button>
+                                <Button onClick={() => setAllTime(1)}>Maximum</Button>
+                                <Button onClick={() => setAllTime(2)}>Minimum</Button>
+                            </ButtonGroup>
+                            {averageData.length}
+                        </Box>
+                    )
+                }
                 <Button onClick={() => updateFavorites()} style={{ left: '50%', transform: 'translateX(-50%)' }}>
                     {inFavorites ? "Delete From Favorites" : "Add To Favorites"}
                 </Button>

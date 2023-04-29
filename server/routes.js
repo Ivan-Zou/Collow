@@ -187,8 +187,9 @@ const county_metrics_by_date = async function(req, res) {
   });
 }
 
-// Route 9: GET /average_county_info
+// Route 9: GET /average_county_info/:id
 const average_county_info = async function(req, res) {
+  const countyId = req.params.id;
   connection.query(`
   WITH hotness_average (id, hotness_avg, viewer_avg) AS (
     SELECT id, AVG(hotness), AVG(num_of_viewers)
@@ -220,8 +221,10 @@ const average_county_info = async function(req, res) {
               LEFT JOIN listing_count_average LCA ON C.id = LCA.id
               LEFT JOIN listing_price_average LPA ON C.id = LPA.id
               LEFT JOIN square_footage_average SFA ON C.id = SFA.id
-              LEFT JOIN supply_and_demand_average SDA ON C.id = SDA.id;
+              LEFT JOIN supply_and_demand_average SDA ON C.id = SDA.id
+  WHERE C.id = ${countyId};
   `, (err, data) => {
+    console.log(data.length);
     if (err || data.length === 0) {
       console.log(err);
       res.json([]);
@@ -231,8 +234,9 @@ const average_county_info = async function(req, res) {
   });
 }
 
-// Route 10: GET /maximum_county_info
+// Route 10: GET /maximum_county_info/:id
 const maximum_county_info = async function(req, res) {
+  const countyId = req.params.id;
   connection.query(`
   WITH hotness_max (id, hotness_max, viewer_max) AS (
     SELECT id, MAX(hotness), MAX(num_of_viewers)
@@ -264,7 +268,8 @@ const maximum_county_info = async function(req, res) {
               LEFT JOIN listing_count_max LCM ON C.id = LCM.id
               LEFT JOIN listing_price_max LPM ON C.id = LPM.id
               LEFT JOIN square_footage_max SFM ON C.id = SFM.id
-              LEFT JOIN supply_and_demand_max SDM ON C.id = SDM.id;
+              LEFT JOIN supply_and_demand_max SDM ON C.id = SDM.id
+  WHERE C.id = ${countyId};
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -275,8 +280,9 @@ const maximum_county_info = async function(req, res) {
   });
 }
 
-// Route 11: GET /minimum_county_info
+// Route 11: GET /minimum_county_info/:id
 const minimum_county_info = async function(req, res) {
+  const countyId = req.params.id;
   connection.query(`
   WITH hotness_min (id, hotness_min, viewer_min) AS (
     SELECT id, MIN(hotness), MIN(num_of_viewers)
@@ -308,7 +314,8 @@ const minimum_county_info = async function(req, res) {
               LEFT JOIN listing_count_min LCM ON C.id = LCM.id
               LEFT JOIN listing_price_min LPM ON C.id = LPM.id
               LEFT JOIN square_footage_min SFM ON C.id = SFM.id
-              LEFT JOIN supply_and_demand_min SDM ON C.id = SDM.id;
+              LEFT JOIN supply_and_demand_min SDM ON C.id = SDM.id
+  WHERE C.id = ${countyId};
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -318,6 +325,25 @@ const minimum_county_info = async function(req, res) {
     }
   });
 }
+
+// Route 12: GET /county_scores/:id
+const county_scores = async function(req, res) {
+  const countyId = req.params.id;
+  connection.query(`
+  SELECT CONCAT(FLOOR(H.date % 100), '/', FLOOR(H.date / 100)) as date, H.hotness AS Hotness, 
+  SD.supply AS Supply, SD.demand AS Demand
+  FROM Hotness H JOIN Supply_and_Demand SD ON H.id = SD.id AND H.date = SD.date
+  WHERE H.id = ${countyId}
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 
 module.exports = {
   author,
@@ -331,4 +357,5 @@ module.exports = {
   average_county_info,
   maximum_county_info,
   minimum_county_info,
+  county_scores
 }
