@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, ButtonGroup, Checkbox, FormControlLabel, Tabs, Tab, Typography, Modal } from '@mui/material';
-import { ResponsiveContainer, Line, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
-import { formatCountyName } from '../helpers/formatter';
+import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Modal, Select, Tabs, Tab, Typography} from '@mui/material';
+import { Bar, BarChart, ResponsiveContainer, Line, LineChart, Legend, XAxis, YAxis, Tooltip } from 'recharts';
+import { formatCountyName} from '../helpers/formatter';
 
 const config = require('../config.json');
 
@@ -30,13 +30,14 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     const [demand, setDemand] = useState(false);
     // State to keep track of whether to display median price per square foot
     const [pricePerSquareFoot, setPricePerSquareFoot] = useState(false);
-    const [infoToDisplay, setInfoToDisplay] = useState(1);
+    // State to keep track of which info to display
+    const [infoToDisplay, setInfoToDisplay] = useState(0);
+    // State to keep track of whether the current county is favorited
     const [inFavorites, setInFavorites] = useState(favorites.includes(countyId));
-    const [averageData, setAverageData] = useState([]);
-    const [maxData, setMaxData] = useState([]);
-    const [minData, setMinData] = useState([]);
-    // State to keep track of whether to display average data
-    const [allTime, setAllTime] = useState(0);
+    // State to keep track of average, min, max
+    const [allTimeData, setAllTimeData] = useState([]);
+    // State to keep track of which data to show for allTimeData
+    const [attribute, setAttribute] = useState("Average_Listing_Price");
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
@@ -50,7 +51,60 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                     fetch(`http://${config.server_host}:${config.server_port}/average_county_info/${countyId}`)
                         .then(res => res.json()) 
                         .then(resJson2 => {
-                            setAverageData(resJson2);
+                            const average = {
+                                Type: "Average",
+                                Average_Listing_Price: resJson2.average_avg,
+                                Median_Listing_Price: resJson2.median_avg,
+                                Total_Listing_Count: resJson2.total_avg,
+                                Active_Listing_Count: resJson2.active_avg,
+                                New_Listing_Count: resJson2.new_avg,
+                                Median_Price_Per_Square_Foot: resJson2.median_listing_price_per_square_foot_avg,
+                                Median_Square_Feet: resJson2.median_square_feet_avg,
+                                Hotness: resJson2.hotness_avg,
+                                Viewers: resJson2.viewer_avg,
+                                Supply: resJson2.supply_avg,
+                                Demand: resJson2.demand_avg
+                            }
+                            average.Type="Average"
+                            fetch(`http://${config.server_host}:${config.server_port}/maximum_county_info/${countyId}`)
+                            .then(res => res.json())
+                            .then(resJson4 => {
+                                const max = {
+                                    Type: "Maximum",
+                                    Average_Listing_Price: resJson4.average_max,
+                                    Median_Listing_Price: resJson4.median_max,
+                                    Total_Listing_Count: resJson4.total_max,
+                                    Active_Listing_Count: resJson4.active_max,
+                                    New_Listing_Count: resJson4.new_max,
+                                    Median_Price_Per_Square_Foot: resJson4.median_listing_price_per_square_foot_max,
+                                    Median_Square_Feet: resJson4.median_square_feet_max,
+                                    Hotness: resJson4.hotness_max,
+                                    Viewers: resJson4.viewer_max,
+                                    Supply: resJson4.supply_max,
+                                    Demand: resJson4.demand_max
+                                }
+                                fetch(`http://${config.server_host}:${config.server_port}/minimum_county_info/${countyId}`)
+                                    .then(res => res.json())
+                                    .then(resJson5 => {
+                                        const min = {
+                                            Type: "Minimum",
+                                            Average_Listing_Price: resJson5.average_min,
+                                            Median_Listing_Price: resJson5.median_min,
+                                            Total_Listing_Count: resJson5.total_min,
+                                            Active_Listing_Count: resJson5.active_min,
+                                            New_Listing_Count: resJson5.new_min,
+                                            Median_Price_Per_Square_Foot: resJson5.median_listing_price_per_square_foot_min,
+                                            Median_Square_Feet: resJson5.median_square_feet_min,
+                                            Hotness: resJson5.hotness_min,
+                                            Viewers: resJson5.viewer_min,
+                                            Supply: resJson5.supply_min,
+                                            Demand: resJson5.demand_min
+                                        }
+                                        setAllTimeData([average, max, min]);
+                                    }
+                                );
+                            }
+                        );
                     })
                 })  
             });
@@ -60,7 +114,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
         fetch(`http://${config.server_host}:${config.server_port}/county_scores/${countyId}`)
             .then(res => res.json())
             .then(resJson3 => {
-                setCountyScores(resJson3)
+                setCountyScores(resJson3);
             }
         );
     }, []);
@@ -252,12 +306,35 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                             justifyContent: 'center',  
                             alignItems: 'center'
                         }}>
-                            <ButtonGroup style={{display: 'flex', alignItems: 'center'}} >
-                                <Button onClick={() => setAllTime(0)}>Average</Button>
-                                <Button onClick={() => setAllTime(1)}>Maximum</Button>
-                                <Button onClick={() => setAllTime(2)}>Minimum</Button>
-                            </ButtonGroup>
-                            {averageData.length}
+                            <FormControl variant="filled" sx={{minWidth: 120}} style={{marginBottom:"30px"}}> 
+                                <InputLabel>Attribute</InputLabel>
+                                    <Select
+                                        onChange={(e) => setAttribute(e.target.value)}
+                                        label="Attribute"
+                                        defaultValue={"Average_Price"}   
+                                    >
+                                        <MenuItem value={"Average_Listing_Price"}>Average Listing Price</MenuItem>
+                                        <MenuItem value={"Median_Listing_Price"}>Median Listing Price</MenuItem>
+                                        <MenuItem value={"Total_Listing_Count"}>Total Listing Count</MenuItem>
+                                        <MenuItem value={"Active_Listing_Count"}>Active Listing Count</MenuItem>
+                                        <MenuItem value={"New_Listing_Count"}>New Listing Count</MenuItem>
+                                        <MenuItem value={"Median_Price_Per_Square_Foot"}>Median Price Per Square Foot</MenuItem>
+                                        <MenuItem value={"Median_Square_Feet"}>Median Square Feet</MenuItem>
+                                        <MenuItem value={"Hotness"}>Hotness</MenuItem>
+                                        <MenuItem value={"Viewers"}>Viewers</MenuItem>
+                                        <MenuItem value={"Supply"}>Supply</MenuItem>
+                                        <MenuItem value={"Demand"}>Demand</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            <ResponsiveContainer height={250}>
+                            <BarChart data={allTimeData} style={{width: '1100px'}}>
+                                <XAxis dataKey="Type"></XAxis>
+                                <YAxis></YAxis>
+                                <Legend></Legend>
+                                <Tooltip></Tooltip>
+                                <Bar dataKey={attribute} fill='#82CA9D' maxBarSize={25}/>
+                            </BarChart>
+                            </ResponsiveContainer>
                         </Box>
                     )
                 }
@@ -270,5 +347,114 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
             </Box>
         </Modal>
     )
-
 }
+
+/*
+<ButtonGroup style={{display: 'flex', alignItems: 'center', marginBottom:"20px"}} >
+                                <Button onClick={() => setAllTime(0)}>Average</Button>
+                                <Button onClick={() => setAllTime(1)}>Maximum</Button>
+                                <Button onClick={() => setAllTime(2)}>Minimum</Button>
+                            </ButtonGroup>
+                            {allTime === 0 && (
+                                <Container>
+                                    <Typography variant='h7' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '10px'}}>
+                                        Average Listing Price: {formatPriceByThousand(averageData.average_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Listing Price: {formatPriceByThousand(averageData.median_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Total Listing Count: {formatUnitNumber(averageData.total_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Active Listing Count: {formatUnitNumber(averageData.active_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        New Listing Count: {formatUnitNumber(averageData.new_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Price Per Square Foot: {formatPriceByThousand(averageData.median_listing_price_per_square_foot_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Square Feet: {formatPriceByThousand(averageData.median_square_feet_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Hotness: {formatUnitNumber(averageData.hotness_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Supply: {formatUnitNumber(averageData.supply_avg)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Demand: {formatUnitNumber(averageData.demand_avg)}
+                                    </Typography>
+                                </Container>         
+                            )}
+                            {allTime === 1 && (
+                                <Container>
+                                    <Typography variant='h7' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '10px'}}>
+                                        Average Listing Price: {formatPriceByThousand(maxData.average_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Listing Price: {formatPriceByThousand(maxData.median_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Total Listing Count: {formatUnitNumber(maxData.total_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Active Listing Count: {formatUnitNumber(maxData.active_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        New Listing Count: {formatUnitNumber(maxData.new_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Price Per Square Foot: {formatPriceByThousand(maxData.median_listing_price_per_square_foot_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Square Feet: {formatPriceByThousand(maxData.median_square_feet_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Hotness: {formatUnitNumber(maxData.hotness_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Supply: {formatUnitNumber(maxData.supply_max)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Demand: {formatUnitNumber(maxData.demand_max)}
+                                    </Typography>
+                                </Container>         
+                            )}
+                            {allTime === 2 && (
+                                <Container>
+                                    <Typography variant='h7' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '10px'}}>
+                                        Average Listing Price: {formatPriceByThousand(minData.average_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Listing Price: {formatPriceByThousand(minData.median_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Total Listing Count: {formatUnitNumber(minData.total_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Active Listing Count: {formatUnitNumber(minData.active_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        New Listing Count: {formatUnitNumber(minData.new_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Price Per Square Foot: {formatPriceByThousand(minData.median_listing_price_per_square_foot_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Median Square Feet: {formatPriceByThousand(minData.median_square_feet_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Hotness: {formatUnitNumber(minData.hotness_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Supply: {formatUnitNumber(minData.supply_min)}
+                                    </Typography>
+                                    <Typography variant='h7' color={'darkgreen'} display="block" style={{marginTop: '20px', marginBottom: '10px'}}>
+                                        Demand: {formatUnitNumber(minData.demand_min)}
+                                    </Typography>
+                                </Container>         
+                            )}
+*/

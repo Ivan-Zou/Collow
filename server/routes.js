@@ -224,12 +224,11 @@ const average_county_info = async function(req, res) {
               LEFT JOIN supply_and_demand_average SDA ON C.id = SDA.id
   WHERE C.id = ${countyId};
   `, (err, data) => {
-    console.log(data.length);
     if (err || data.length === 0) {
       console.log(err);
       res.json([]);
     } else {
-      res.json(data);
+      res.json(data[0]);
     }
   });
 }
@@ -275,7 +274,7 @@ const maximum_county_info = async function(req, res) {
       console.log(err);
       res.json([]);
     } else {
-      res.json(data);
+      res.json(data[0]);
     }
   });
 }
@@ -321,7 +320,7 @@ const minimum_county_info = async function(req, res) {
       console.log(err);
       res.json([]);
     } else {
-      res.json(data);
+      res.json(data[0]);
     }
   });
 }

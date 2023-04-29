@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Container, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import { formatUnitNumber, formatUnitPrice, formatCountyName} from '../helpers/formatter';
-import {Bar, BarChart, Line, LineChart, Legend,  ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { Box, Container, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { formatCountyName} from '../helpers/formatter';
+import {Bar, BarChart, Legend,  ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 const config = require('../config.json');
 
 export default function CompareFavoritesPage({favorites, setFavorites}) {
@@ -149,11 +149,4 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                  )}
         </Container>
     )
-    
-    /*
-                <Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
-                            Select at least 2 counties to compare!
-                        </Typography>
-              
-    */
 }
