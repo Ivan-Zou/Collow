@@ -5,6 +5,7 @@ import {Bar, BarChart, Legend,  ResponsiveContainer, XAxis, YAxis, Tooltip } fro
 const config = require('../config.json');
 
 export default function CompareFavoritesPage({favorites, setFavorites}) {
+    // The earliest and latest dates in our dataset
     const earliest = 201708;
     const latest = 202302;
     // Array with all the years between earliest and latest
@@ -20,9 +21,12 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
     const[data, setData] = useState([]);
     // State to keep track of the counties that the user wants to compare
     const [counties, setCounties] = useState([]);
+    // State to keep track of which attribute the user wants to see
     const [attribute, setAttribute] = useState("Average_Price");
 
+    // A useEffect hook to get the county_metrics of all favorited countiies from the date the user specified
     useEffect(() => {
+        // Create a string to represent the array and pass it to the route to fetch info
         const favoriteIds = "(" + favorites.map((id) => `${id}`).join(',') + ")";
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics_by_date/${favoriteIds}/${parseInt(year + month)}`)
         .then(res => res.json())
@@ -42,6 +46,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
         });
     }, [favorites, month, year])
 
+    // Function to update the selected counties based on whether the county was already selected or not
     const updateCountiesToCompare = (id) => {
         if (counties.includes(id)) {
             setCounties(counties.filter((countyId) => countyId != id));
@@ -50,8 +55,8 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
         }
     }
     
+    // Function to get the BarChart
     const getChart = (chartData) => {
-        console.log(chartData);
         return (
             <ResponsiveContainer height={500}>
                 <BarChart data={chartData} style={{width: '1100px'}}>
@@ -67,6 +72,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
 
     return (
         <Container>
+            {/*Display text based on how many favorites the user has */}
             {favorites.length <= 1 ? 
                 (<Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
                     You don't have enough favorites!
@@ -117,6 +123,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                             
                         </Grid>
                         <Grid item xs={6}>
+                            {/*Drop down boxes to select which attribute to display on the bar chart*/}
                             <FormControl variant="filled" sx={{minWidth: 120}}>
                                 <InputLabel>Attribute</InputLabel>
                                     <Select
@@ -134,6 +141,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                                 </FormControl>
                         </Grid>
                     </Grid>
+                    {/*Create the checkboxes, which will be checked based on whether or not the county is in counties*/}
                     {data.map((county) => 
                         <FormControlLabel
                             control={<Checkbox 
@@ -144,6 +152,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                             labelPlacement='start'
                         />
                     )}
+                    {/*Render the graph only when at least 2 counties are selected. Due to a bug, BarChart needs >= 2 data points*/}
                     {counties.length >= 2 && getChart(data.filter((county) => counties.includes(county.id)))}
                   </Box>
                  )}
