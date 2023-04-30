@@ -74,7 +74,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
                  (<Box>
                     <Grid container spacing={4} direction={'row'} wrap='nowrap' alignItems={"center"} style={{marginBottom: '40px'}}>
                         <Grid item xs={6}>
-                                <Typography variant='h4' color={'darkgreen'} style={{marginTop:'45px', marginBottom: '40px'}}>
+                                <Typography variant='h4' color={'darkgreen'} style={{marginTop:'35px', marginBottom: '5px'}}>
                                     Select at least 2 counties to compare!
                                 </Typography>
                         </Grid>
