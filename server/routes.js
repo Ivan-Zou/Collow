@@ -29,8 +29,9 @@ const latest_county_info = async function(req, res) {
   const offset = pageSize * (page - 1);
 
   connection.query(`
-    SELECT *
-    FROM County C LEFT JOIN Listing_Price LP ON C.id = LP.id
+  SELECT C.id, name, median, average, median_listing_price_per_square_foot, median_square_feet,
+         total, active, new, hotness, num_of_viewers, supply, demand
+  FROM County C LEFT JOIN Listing_Price LP ON C.id = LP.id
                   LEFT JOIN Square_Footage SF ON C.id = SF.id AND LP.date = SF.date
                   LEFT JOIN Listing_Count LC ON C.id = LC.id AND LP.date = LC.date
                   LEFT JOIN Hotness H ON C.id = H.id AND LP.date = H.date

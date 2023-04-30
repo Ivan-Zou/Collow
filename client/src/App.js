@@ -31,7 +31,7 @@ export default function App() {
       <BrowserRouter>
         <SideBar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage favorites={favorites} setFavorites={setFavorites}/>} />
           <Route path="/search_counties" element={<SearchCountiesPage favorites={favorites} setFavorites={setFavorites}/>} />
           <Route path="/county_directory" element={<CountyDirectoryPage favorites={favorites} setFavorites={setFavorites}/>} />
           <Route path="/compare_favorites" element={<CompareFavoritesPage favorites={favorites} setFavorites={setFavorites}/>} />

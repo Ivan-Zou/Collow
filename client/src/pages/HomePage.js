@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import { formatUnitPrice, formatCountyName, formatUnitNumber, formatNull } from '../helpers/formatter';
 
 import LazyTable from '../components/LazyTable';
+import CountyCard from '../components/CountyCard';
 const config = require('../config.json');
 
-export default function HomePage() {
+export default function HomePage({favorites, setFavorites}) {
   const [appAuthor, setAppAuthor] = useState('');
+  const [selectedCounty, setSelectedCounty] = useState(null);
+
 
   useEffect(() => {
     fetch(`http://${config.server_host}:${config.server_port}/author`)
@@ -19,7 +21,7 @@ export default function HomePage() {
     {
       field: 'name',
       headerName: 'County',
-      renderCell: (row) => formatCountyName(row.name)
+      renderCell: (row) => <Link onClick={() => setSelectedCounty(row.id)}>{formatCountyName(row.name)}</Link>
     },
     {
       field: 'median',
@@ -37,7 +39,7 @@ export default function HomePage() {
     {
       field: 'name',
       headerName: 'County',
-      renderCell: (row) => formatCountyName(row.name)
+      renderCell: (row) => <Link onClick={() => setSelectedCounty(row.id)}>{formatCountyName(row.name)}</Link>
     },
     {
       field: 'median_listing_price_per_square_foot',
@@ -55,7 +57,7 @@ export default function HomePage() {
     {
       field: 'name',
       headerName: 'County',
-      renderCell: (row) => formatCountyName(row.name)
+      renderCell: (row) => <Link onClick={() => setSelectedCounty(row.id)}>{formatCountyName(row.name)}</Link>
     },
     {
       field: 'active',
@@ -78,7 +80,7 @@ export default function HomePage() {
     {
       field: 'name',
       headerName: 'County',
-      renderCell: (row) => formatCountyName(row.name)
+      renderCell: (row) => <Link onClick={() => setSelectedCounty(row.id)}>{formatCountyName(row.name)}</Link>
     },
     {
       field: 'hotness',
@@ -91,7 +93,7 @@ export default function HomePage() {
     {
       field: 'name',
       headerName: 'County',
-      renderCell: (row) => formatCountyName(row.name)
+      renderCell: (row) => <Link onClick={() => setSelectedCounty(row.id)}>{formatCountyName(row.name)}</Link>
     },
     {
       field: 'demand',
@@ -107,6 +109,7 @@ export default function HomePage() {
 
   return (
     <Container>
+      {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} favorites={favorites} setFavorites={setFavorites}/>}
       <Divider />
       <h2>Latest Listing Prices</h2>
       <LazyTable 
