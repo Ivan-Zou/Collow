@@ -39,7 +39,9 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     // State to keep track of which data to show for allTimeData
     const [attribute, setAttribute] = useState("Average_Listing_Price");
 
+    // A useEffect Hook to update all the states based on which county this card is for
     useEffect(() => {
+        // Route to get all the relevant data from the county metrics dataset
         fetch(`http://${config.server_host}:${config.server_port}/county_metrics/${countyId}`)
             .then(res => res.json())
             .then(resJson => {
@@ -110,11 +112,12 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
             });
     }, []);
 
+    // UseEffect Hook to get the county scores
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/county_scores/${countyId}`)
             .then(res => res.json())
-            .then(resJson3 => {
-                setCountyScores(resJson3);
+            .then(resJson => {
+                setCountyScores(resJson);
             }
         );
     }, []);

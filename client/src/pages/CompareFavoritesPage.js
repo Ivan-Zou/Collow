@@ -54,9 +54,9 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
         console.log(chartData);
         return (
             <ResponsiveContainer height={500}>
-                <BarChart data={chartData} style={{width: '1200px'}}>
+                <BarChart data={chartData} style={{width: '1100px'}}>
                     <XAxis dataKey="Name"></XAxis>
-                    <YAxis></YAxis>
+                    <YAxis width={70}></YAxis>
                     <Legend></Legend>
                     <Tooltip></Tooltip>
                     <Bar dataKey={attribute} fill='#82CA9D' maxBarSize={25}/>

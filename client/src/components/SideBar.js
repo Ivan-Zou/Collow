@@ -2,9 +2,9 @@ import { AppBar, Box, Button, Container, Drawer, List, ListItem, Toolbar, Typogr
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-// The hyperlinks in the NavBar contain a lot of repeated formatting code so a
-// helper component NavText local to the file is defined to prevent repeated code.
+// A side bar for the UI
 
+// NavText from HW2 with some changes to styling
 const NavText = ({ href, text}) => {
   return (
     <Typography
@@ -31,6 +31,7 @@ const NavText = ({ href, text}) => {
   )
 };
 
+// A list with all NavTexts to all of the pages
 const menuList = (
       <Box
         sx={250}
@@ -53,15 +54,14 @@ const menuList = (
     </Box>
 );
 
-// Here, we define the NavBar. Note that we heavily leverage MUI components
-// to make the component look nice. Feel free to try changing the formatting
-// props to how it changes the look of the component.
-export default function NavBar() {
+// Here, we define the SideBar, which uses similar components to the NavBar in HW2. 
+export default function SideBar() {
   const [openMenu, setOpenMenu] = useState(false);
   return (
     <AppBar position='static'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+            {/*Button to open sidebar*/}
             <Button variant="text" color='success' onClick={() => setOpenMenu(true)}>
               <Typography
                 variant='h5'
@@ -76,6 +76,7 @@ export default function NavBar() {
               </Typography>
             </Button>
         </Toolbar>
+          {/*The Actual Side Menu*/}
           <Drawer
             open={openMenu}
             onClose={() => setOpenMenu(false)}
