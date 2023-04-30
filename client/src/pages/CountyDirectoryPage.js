@@ -16,6 +16,7 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
     // State to keep track of the number of counties to show at one time
     const [pageSize, setPageSize] = useState(10);
 
+    // useEffect hook to update the counties whenever letter changes. Initially, we get every county.
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/counties_starting_with/${letter}`)
           .then(res => res.json())
@@ -29,6 +30,7 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
           });
       }, [letter]);
 
+    // Create a button for every letter and 'all'. Each button will update letter state accordingly
     const buttonOptions = (
         ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
               'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'all'].map(
@@ -46,7 +48,8 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
         )
         
     );
-
+    
+    // Name column for output table. Each name will have a Link to display the corrresponding county card.
     const columns = [
         { 
             field: 'name', 
@@ -67,6 +70,7 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
                 County Directory
             </Typography>
             {buttonOptions} 
+            {/*Results*/}
             <DataGrid
                 rows={data}
                 columns={columns}
