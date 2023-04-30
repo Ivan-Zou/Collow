@@ -7,16 +7,20 @@ import CountyCard from '../components/CountyCard';
 const config = require('../config.json');
 
 export default function HomePage({favorites, setFavorites}) {
+  // State for our names
   const [appAuthor, setAppAuthor] = useState('');
+  // State to keep track of what county to display in the county card
   const [selectedCounty, setSelectedCounty] = useState(null);
 
-
+ 
+  // useEffect to get author names
   useEffect(() => {
     fetch(`http://${config.server_host}:${config.server_port}/author`)
       .then(res => res.text())
       .then(resText => setAppAuthor(resText));
   }, []);
 
+  // Columns for latest listing prices
   const listingPrices = [
     {
       field: 'name',
@@ -35,6 +39,7 @@ export default function HomePage({favorites, setFavorites}) {
     },
   ];
 
+  // Columns for latest square footage
   const squareFootage = [
     {
       field: 'name',
@@ -53,6 +58,7 @@ export default function HomePage({favorites, setFavorites}) {
     },
   ];
 
+  // Columns for latest listing counts
   const listingCounts = [
     {
       field: 'name',
@@ -76,6 +82,7 @@ export default function HomePage({favorites, setFavorites}) {
     },
   ];
 
+  // Columns for latest hotness scores
   const hotnessScores = [
     {
       field: 'name',
@@ -89,6 +96,7 @@ export default function HomePage({favorites, setFavorites}) {
     },
   ];
 
+  // Columns for latest supply and demand scores
   const supplyAndDemandScores = [
     {
       field: 'name',
@@ -109,38 +117,45 @@ export default function HomePage({favorites, setFavorites}) {
 
   return (
     <Container>
+      {/*Display county card of the selected countyId*/}
       {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} favorites={favorites} setFavorites={setFavorites}/>}
       <Divider />
+      {/*Table displaying latest prices*/}
       <h2>Latest Listing Prices</h2>
       <LazyTable 
         route={`http://${config.server_host}:${config.server_port}/latest_county_info`} 
         columns={listingPrices} 
         rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
+      {/*Table displaying latest square footage*/}
       <h2>Latest Square Footage</h2>
       <LazyTable 
         route={`http://${config.server_host}:${config.server_port}/latest_county_info`} 
         columns={squareFootage} 
         rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
+      {/*Table displaying listing counts*/}
       <h2>Latest Listing Count</h2>
       <LazyTable 
         route={`http://${config.server_host}:${config.server_port}/latest_county_info`} 
         columns={listingCounts} 
         rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
+      {/*Table displaying latest hotness scores*/}
       <h2>Latest Hotness Scores</h2>
       <LazyTable 
         route={`http://${config.server_host}:${config.server_port}/latest_county_info`} 
         columns={hotnessScores} 
         rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
+      {/*Table displaying supply and demand scores*/}
       <h2>Latest Supply and Demand Scores</h2>
       <LazyTable 
         route={`http://${config.server_host}:${config.server_port}/latest_county_info`} 
         columns={supplyAndDemandScores} 
         rowsPerPageOptions={[5, 10, 25]} />
       <Divider />
+      {/*Display authors*/}
       <p>{appAuthor}</p>
     </Container>
   );
