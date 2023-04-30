@@ -311,7 +311,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
                                     <Select
                                         onChange={(e) => setAttribute(e.target.value)}
                                         label="Attribute"
-                                        defaultValue={"Average_Price"}   
+                                        defaultValue={"Average_Listing_Price"}   
                                     >
                                         <MenuItem value={"Average_Listing_Price"}>Average Listing Price</MenuItem>
                                         <MenuItem value={"Median_Listing_Price"}>Median Listing Price</MenuItem>
