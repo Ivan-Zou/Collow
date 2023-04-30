@@ -194,31 +194,31 @@ const average_county_info = async function(req, res) {
   WITH hotness_average (id, hotness_avg, viewer_avg) AS (
     SELECT id, AVG(hotness), AVG(num_of_viewers)
     FROM Hotness
-    WHERE id = ${countyId};
+    WHERE id = ${countyId}
     GROUP BY id
   ),
   listing_count_average (id, total_avg, active_avg, new_avg) AS (
       SELECT id, AVG(total), AVG(active), AVG(new)
       FROM Listing_Count
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   listing_price_average (id, median_avg, average_avg) AS (
       SELECT id, AVG(median), AVG(average)
       FROM Listing_Price
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   square_footage_average (id, median_listing_price_per_square_foot_avg, median_square_feet_avg) AS (
       SELECT id, AVG(median_listing_price_per_square_foot), AVG(median_square_feet)
       FROM Square_Footage
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   supply_and_demand_average (id, supply_avg, demand_avg) AS (
       SELECT id, AVG(supply), AVG(demand)
       FROM Supply_and_Demand
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   )
   SELECT *
@@ -245,31 +245,31 @@ const maximum_county_info = async function(req, res) {
   WITH hotness_max (id, hotness_max, viewer_max) AS (
     SELECT id, MAX(hotness), MAX(num_of_viewers)
     FROM Hotness
-    WHERE id = ${countyId};
+    WHERE id = ${countyId}
     GROUP BY id
   ),
   listing_count_max (id, total_max, active_max, new_max) AS (
       SELECT id, MAX(total), MAX(active), MAX(new)
       FROM Listing_Count
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   listing_price_max (id, median_max, average_max) AS (
       SELECT id, MAX(median), MAX(average)
       FROM Listing_Price
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   square_footage_max (id, median_listing_price_per_square_foot_max, median_square_feet_max) AS (
       SELECT id, MAX(median_listing_price_per_square_foot), MAX(median_square_feet)
       FROM Square_Footage
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   supply_and_demand_max (id, supply_max, demand_max) AS (
       SELECT id, MAX(supply), MAX(demand)
       FROM Supply_and_Demand
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   )
   SELECT *
@@ -296,31 +296,31 @@ const minimum_county_info = async function(req, res) {
   WITH hotness_min (id, hotness_min, viewer_min) AS (
     SELECT id, MIN(hotness), MIN(num_of_viewers)
     FROM Hotness
-    WHERE id = ${countyId};
+    WHERE id = ${countyId}
     GROUP BY id
   ),
   listing_count_min (id, total_min, active_min, new_min) AS (
       SELECT id, MIN(total), MIN(active), MIN(new)
       FROM Listing_Count
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   listing_price_min (id, median_min, average_min) AS (
       SELECT id, MIN(median), MIN(average)
       FROM Listing_Price
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   square_footage_min (id, median_listing_price_per_square_foot_min, median_square_feet_min) AS (
       SELECT id, MIN(median_listing_price_per_square_foot), MIN(median_square_feet)
       FROM Square_Footage
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   ),
   supply_and_demand_min (id, supply_min, demand_min) AS (
       SELECT id, MIN(supply), MIN(demand)
       FROM Supply_and_Demand
-      WHERE id = ${countyId};
+      WHERE id = ${countyId}
       GROUP BY id
   )
   SELECT *
