@@ -63,11 +63,8 @@ export default function CountyDirectoryPage({favorites, setFavorites}) {
             {/*Render the CountyCard if a county has been selected */}
             {selectedCounty && <CountyCard countyId={selectedCounty} handleClose={() => setSelectedCounty(null)} favorites={favorites} setFavorites={setFavorites}/>}
             {/*Header for the page*/}
-            <Typography variant='h3' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
+            <Typography variant='h4' color={'darkgreen'} style={{marginTop: '35px', marginBottom: '20px'}}>
                 County Directory
-            </Typography>
-            <Typography variant='h5' color={'darkgreen'} style={{marginTop: '45px', marginBottom: '40px'}}>
-                Counties that start with:
             </Typography>
             {buttonOptions} 
             <DataGrid
