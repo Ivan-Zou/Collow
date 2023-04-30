@@ -38,7 +38,7 @@ export default function SearchCountiesPage({favorites, setFavorites}) {
     // State to keep track of bounds for active listings when querying
     const [activeListingCount, setActiveListingCount] = useState([0, 24000]);
     
-
+    // useEffect to find all counties initially
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties`)
           .then(res => res.json())
@@ -57,6 +57,7 @@ export default function SearchCountiesPage({favorites, setFavorites}) {
           });
       }, []);
 
+      // Search function that uses the states to fetch all counties that match the conditions
       const search = () => {
         fetch(`http://${config.server_host}:${config.server_port}/search_counties?name=${name}` +
         `&average_price_low=${averagePrice[0]}&average_price_high=${averagePrice[1]}` +
