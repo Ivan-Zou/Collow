@@ -132,7 +132,7 @@ export default function CountyCard({countyId, handleClose, favorites, setFavorit
     const updateFavorites = () => {
         if (inFavorites) {
             setInFavorites(false);
-            setFavorites(favorites.filter(id => id != countyId));
+            setFavorites(favorites.filter(id => id !== countyId));
         } else {
             setInFavorites(true);
             setFavorites([...favorites, countyId]);

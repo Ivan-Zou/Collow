@@ -49,7 +49,7 @@ export default function CompareFavoritesPage({favorites, setFavorites}) {
     // Function to update the selected counties based on whether the county was already selected or not
     const updateCountiesToCompare = (id) => {
         if (counties.includes(id)) {
-            setCounties(counties.filter((countyId) => countyId != id));
+            setCounties(counties.filter((countyId) => countyId !== id));
         } else {
             setCounties([...counties, id]);
         }
