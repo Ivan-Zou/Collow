@@ -27,12 +27,18 @@ export function formatCountyName(name) {
   }
   const countyState = name.split(', ');
   const county = countyState[0].split(' ');
+  
   for (var i = 0; i < county.length; i++) {
     county[i] = county[i][0].toUpperCase() + county[i].slice(1);
   }
-  county.join(" ")
+
+  var countyStr = "";
+  for(var i = 0; i < county.length; i++) {
+    countyStr += i != county.length - 1 ? county[i] + " " : county[i];
+  }
+
   const state = countyState[1];
-  return county + ", " + state.toUpperCase();
+  return countyStr + ", " + state.toUpperCase();
 }
 
 export function formatNull(value) {
