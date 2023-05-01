@@ -124,30 +124,7 @@ const county_name = async function(req, res) {
   });
 }
 
-// Route 6: GET /listing_change/
-const listing_change = async function(req, res) {
-  const d1 = req.query.d1;
-  const d2 = req.query.d2;
-  connection.query(`
-    SELECT id, ABS(LC_D1.active - LC_D2.active) as change
-    FROM (SELECT id, active
-      FROM Listing_Count LC
-      WHERE LC.date = ${d1}) LC_D1 JOIN
-    (SELECT id, active
-      FROM Listing_Count LC
-      WHERE LC.date = ${d2}) LC_D2 ON LC_D1.id, LC_D1.date = LC_D2.id, LC_D2.date
-    ORDER BY change DESC
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
-}
-
-// Route 7: GET /counties_starting_with/:letter
+// Route 6: GET /counties_starting_with/:letter
 const counties_starting_with = async function(req, res) {
   // If letter is null, return all counties. Else, return all counties that start with letter
   const letter = req.params.letter != 'all' ? req.params.letter : '';
@@ -166,7 +143,7 @@ const counties_starting_with = async function(req, res) {
   })
 }
 
-// Route 8: GET /county_metrics_by_date/:list/:date
+// Route 7: GET /county_metrics_by_date/:list/:date
 const county_metrics_by_date = async function(req, res) {
   const ids = req.params.list;
   const date = req.params.date;
@@ -187,7 +164,7 @@ const county_metrics_by_date = async function(req, res) {
   });
 }
 
-// Route 9: GET /average_county_info/:id
+// Route 8: GET /average_county_info/:id
 const average_county_info = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
@@ -238,7 +215,7 @@ const average_county_info = async function(req, res) {
   });
 }
 
-// Route 10: GET /maximum_county_info/:id
+// Route 9: GET /maximum_county_info/:id
 const maximum_county_info = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
@@ -289,7 +266,7 @@ const maximum_county_info = async function(req, res) {
   });
 }
 
-// Route 11: GET /minimum_county_info/:id
+// Route 10: GET /minimum_county_info/:id
 const minimum_county_info = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
@@ -340,7 +317,7 @@ const minimum_county_info = async function(req, res) {
   });
 }
 
-// Route 12: GET /county_scores/:id
+// Route 11: GET /county_scores/:id
 const county_scores = async function(req, res) {
   const countyId = req.params.id;
   connection.query(`
@@ -365,7 +342,6 @@ module.exports = {
   county_metrics,
   search_counties,
   county_name,
-  listing_change,
   counties_starting_with,
   county_metrics_by_date,
   average_county_info,
