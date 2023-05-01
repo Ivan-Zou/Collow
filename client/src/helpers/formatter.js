@@ -33,8 +33,8 @@ export function formatCountyName(name) {
   }
 
   var countyStr = "";
-  for(var i = 0; i < county.length; i++) {
-    countyStr += i != county.length - 1 ? county[i] + " " : county[i];
+  for(var j = 0; j < county.length; j++) {
+    countyStr += j !== county.length - 1 ? county[j] + " " : county[j];
   }
 
   const state = countyState[1];
