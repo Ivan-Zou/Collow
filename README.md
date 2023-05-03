@@ -4,7 +4,7 @@ There are thousands of counties in the United States. Each one at a different po
 
 Collow: The County Version of Zillow
 
-(Data Up-To February 2023)
+(Data Up To February 2023)
 
 ## Directories:
 - client
