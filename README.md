@@ -16,14 +16,14 @@ Collow: The County Version of Zillow
         - components
             - CountyCard.js
             - LazyTable.js
-            - NavBar.js
-            - in progress
+            - SideBar.js
         - helpers
             - formatter.js
         - pages
-            - CountiesPage.js
+            - CompareFavoritesPage.js
+            - CountyDirectoryPage.js
             - HomePage.js
-            - in progress
+            - SearchCountiesPage.js
         - App.js
         - config.json
         - index.js
