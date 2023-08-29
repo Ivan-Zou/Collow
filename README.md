@@ -6,6 +6,11 @@ Collow: The County Version of Zillow
 
 (Data Up To February 2023)
 
+## Demo
+https://github.com/IvanZou1/Collow/assets/105450001/18019ee3-ab09-4658-b248-4b5e4dd03cc1
+
+
+
 ## Directories:
 - client
     - public 
